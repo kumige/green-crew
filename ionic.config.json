@@ -1,0 +1,7 @@
+{
+  "name": "greenCrew",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
