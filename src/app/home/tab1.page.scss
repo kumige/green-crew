@@ -1,4 +1,33 @@
-.welcome-card ion-img {
-  max-height: 35vh;
-  overflow: hidden;
+ion-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  img {
+    float: left;
+    width: 100%;
+    margin-right: 8px;
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    h2 {
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 20px;
+    }
+    p {
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 16px;
+      color: gray;
+    }
+  }
+  .viewButton {
+    float: right;
+  }
 }

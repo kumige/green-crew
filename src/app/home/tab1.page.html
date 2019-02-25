@@ -6,4 +6,43 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+  <ion-list>
+    <ion-card *ngFor="let item of (picArray | async)">
+      <ion-card-header>
+        <ion-card-title>{{ item.title }}</ion-card-title>
+        <ion-card-subtitle>{{
+          item.time_added | date: "d/M/yy"
+        }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-thumbnail item-start>
+          <img
+            *ngIf="item.media_type == 'image'"
+            [alt]="item.title"
+            [src]="
+              'http://media.mw.metropolia.fi/wbma/uploads/' + item.filename
+            "
+          />
+          <img
+            *ngIf="item.media_type == 'video'"
+            [alt]="item.title"
+            [src]="
+              'http://media.mw.metropolia.fi/wbma/uploads/' + item.filename
+            "
+          />
+        </ion-thumbnail>
+        <p>{{ item.description }}</p>
+        <ion-button
+          class="viewButton"
+          clear
+          item-end
+          (click)="itemSelected(item)"
+        >
+          View
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>
