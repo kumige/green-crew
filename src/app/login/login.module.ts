@@ -7,6 +7,8 @@ import { IonicModule } from "@ionic/angular";
 
 import { LoginPage } from "./login.page";
 
+import { ReactiveFormsModule } from "@angular/forms";
+
 const routes: Routes = [
   {
     path: "",
@@ -19,7 +21,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ReactiveFormsModule
   ],
   declarations: [LoginPage]
 })

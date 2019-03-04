@@ -14,9 +14,26 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
   styleUrls: ["./media-provider.page.scss"]
 })
 export class MediaProviderPage implements OnInit {
-  constructor(public http: HttpClient) {}
+  constructor(public http: HttpClient) {
+    this.checkStorage();
+  }
+
+  loggedIn: Boolean;
 
   ngOnInit() {}
+
+  // Checks if the user is logged in or not from the storage
+  checkStorage() {
+    if (localStorage.getItem("token") !== null) {
+      this.loggedIn = true;
+      console.log(true);
+      return true;
+    } else {
+      console.log(false);
+      this.loggedIn = false;
+      return false;
+    }
+  }
 
   getFiles() {
     return this.http.get<IPic[]>("http://media.mw.metropolia.fi/wbma/media");

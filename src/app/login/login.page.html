@@ -5,79 +5,141 @@
 </ion-header>
 
 <ion-content padding>
-  <form (ngSubmit)="login()" *ngIf="!registering">
+  <form class="form" *ngIf="!registering">
     <ion-item>
+      <ion-label id="userLabel" position="floating">Username</ion-label>
       <ion-input
         type="text"
-        placeholder="Username"
-        name="username"
+        [(ngModel)]="user.username"
+        name="Username"
+        (ionBlur)="blur()"
         required
       ></ion-input>
     </ion-item>
-
     <ion-item>
+      <ion-label position="floating">Password</ion-label>
       <ion-input
         type="password"
-        placeholder="Password"
-        name="password"
+        [(ngModel)]="user.password"
+        name="Password"
         required
       ></ion-input>
     </ion-item>
-    <ion-button expand="full" type="submit">Login</ion-button>
-    <ion-button expand="full" fill (click)="switchTemplate()"
-      >Register</ion-button
-    >
+    <ion-button ion-button type="submit" (click)="login()">Login</ion-button>
   </form>
-
-  <form *ngIf="registering">
+  <form class="form" [formGroup]="registerForm" *ngIf="registering">
     <ion-item>
+      <ion-label position="floating">Email</ion-label>
       <ion-input
         type="text"
-        placeholder="Username"
-        name="username"
+        [(ngModel)]="user.email"
+        name="Email"
+        formControlName="email"
+        autofocus
         required
       ></ion-input>
     </ion-item>
-
+    <div class="validation-errors">
+      <div
+        class="error-message"
+        *ngIf="
+          registerForm.controls.email.status === 'INVALID' &&
+          (registerForm.controls.email.dirty ||
+            registerForm.controls.email.touched)
+        "
+      >
+        Please enter a valid email.
+      </div>
+    </div>
     <ion-item>
-      <ion-input
-        type="email"
-        placeholder="Email"
-        name="email"
-        required
-        pattern="[A-Za-z0-9._%+-]{2,}@[a-zA-Z-_.]{2,}[.]{1}[a-zA-Z]{2,}"
-      ></ion-input>
-    </ion-item>
-
-    <ion-item>
+      <ion-label position="floating">Username</ion-label>
       <ion-input
         type="text"
-        placeholder="Full name"
-        name="full_name"
-      ></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input
-        type="password"
-        placeholder="Password"
-        name="password"
+        [(ngModel)]="user.username"
+        name="Username"
+        (ionBlur)="blur()"
+        formControlName="username"
         required
       ></ion-input>
     </ion-item>
-
+    <div class="validation-errors">
+      <div
+        class="error-message"
+        *ngIf="
+          registerForm.controls.username.status === 'INVALID' &&
+          (registerForm.controls.username.dirty ||
+            registerForm.controls.username.touched)
+        "
+      >
+        Username must be at least 3 characters long.
+      </div>
+      <div id="userLabel"></div>
+    </div>
     <ion-item>
+      <ion-label position="floating">Full name</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="user.full_name"
+        formControlName="full_name"
+        name="Full Name"
+      ></ion-input>
+    </ion-item>
+    <ion-item [formGroup]="registerForm">
+      <ion-label position="floating">Password</ion-label>
       <ion-input
         type="password"
-        placeholder="Confirm password"
-        name="confirm_password"
+        (ionBlur)="passwordCheck()"
+        [(ngModel)]="user.password"
+        name="Password"
+        formControlName="password"
         required
       ></ion-input>
     </ion-item>
-
-    <ion-button expand="full" type="submit">Register</ion-button>
-    <ion-button expand="full" fill (click)="switchTemplate($event)"
-      >Login</ion-button
-    >
+    <div class="validation-errors">
+      <div
+        class="error-message"
+        *ngIf="
+          registerForm.controls.password.status === 'INVALID' &&
+          (registerForm.controls.password.dirty ||
+            registerForm.controls.password.touched)
+        "
+      >
+        Password must be 5 characters long.
+      </div>
+    </div>
+    <ion-item>
+      <ion-label position="floating">Re-type password</ion-label>
+      <ion-input
+        type="password"
+        (ionBlur)="passwordCheck()"
+        [(ngModel)]="re_password"
+        name="Password"
+        formControlName="re_password"
+        required
+      ></ion-input>
+    </ion-item>
+    <div class="validation-errors">
+      <div
+        class="error-message"
+        *ngIf="
+          !samePassword &&
+          (registerForm.controls.re_password.dirty ||
+            registerForm.controls.re_password.touched)
+        "
+      >
+        Please re-enter your password.
+      </div>
+    </div>
+    <ion-button ion-button type="submit" (click)="register()">
+      Register
+    </ion-button>
   </form>
+  <ion-button id="register" (click)="switchTemplate()">
+    <p *ngIf="!registering">
+      New User? Click here to register
+    </p>
+    <p *ngIf="registering">
+      Already have an account? Click here to login
+    </p>
+  </ion-button>
 </ion-content>
