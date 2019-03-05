@@ -3,6 +3,9 @@
     <ion-title>
       Home
     </ion-title>
+    <ion-button *ngIf="this.mediaProvider.loggedIn" (click)="uploadClick()"
+      >upload</ion-button
+    >
   </ion-toolbar>
 </ion-header>
 

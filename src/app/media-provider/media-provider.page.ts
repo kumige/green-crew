@@ -39,6 +39,12 @@ export class MediaProviderPage implements OnInit {
     return this.http.get<IPic[]>("http://media.mw.metropolia.fi/wbma/media");
   }
 
+  getFilesByTag(tag) {
+    return this.http.get<IPic[]>(
+      "http://media.mw.metropolia.fi/wbma/tags/" + tag
+    );
+  }
+
   getUserMedia() {
     const httpOptions = {
       headers: new HttpHeaders({

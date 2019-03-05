@@ -13,7 +13,7 @@ import {
   ValidatorFn,
   ValidationErrors
 } from "@angular/forms";
-import { AlertController } from "@ionic/angular";
+import { AlertController, NavController } from "@ionic/angular";
 import { Router } from "@angular/router";
 
 @Component({
@@ -30,7 +30,8 @@ export class LoginPage implements OnInit {
   constructor(
     public mediaProvider: MediaProviderPage,
     public alertController: AlertController,
-    public router: Router
+    public router: Router,
+    public navCtrl: NavController
   ) {}
 
   ngOnInit() {}
@@ -67,8 +68,6 @@ export class LoginPage implements OnInit {
     )
   });
 
-  ionViewDidLoad = () => {};
-
   login = () => {
     this.mediaProvider.login(this.user).subscribe(
       (res: LoginResponse) => {
@@ -76,11 +75,9 @@ export class LoginPage implements OnInit {
         if (!this.mediaProvider.loggedIn) {
           this.mediaProvider.loggedIn = true;
           localStorage.setItem("token", res.token);
-          //this.navCtrl.push(HomePage);
-          console.log("working");
+          this.navCtrl.navigateForward("");
         } else {
-          //this.navCtrl.push(HomePage);
-          console.log("working");
+          this.navCtrl.navigateForward("");
         }
       },
       error => {
