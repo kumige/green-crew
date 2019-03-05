@@ -1,10 +1,19 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title>Login</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content padding>
+  <!-- Logo -->
+  <img
+    class="gcLogo"
+    src="../../assets/Gc-logo.png"
+    alt="Gc-Logo"
+    *ngIf="!registering"
+  />
+
+  <!-- Login form -->
   <form class="form" *ngIf="!registering">
     <ion-item>
       <ion-label id="userLabel" position="floating">Username</ion-label>
@@ -12,7 +21,6 @@
         type="text"
         [(ngModel)]="user.username"
         name="Username"
-        (ionBlur)="blur()"
         required
       ></ion-input>
     </ion-item>
@@ -25,10 +33,16 @@
         required
       ></ion-input>
     </ion-item>
-    <ion-button ion-button type="submit" (click)="login()">Login</ion-button>
+    <div class="centerer">
+      <ion-button ion-button type="submit" class="buttons" (click)="login()"
+        >Login</ion-button
+      >
+    </div>
   </form>
+
+  <!-- Register form -->
   <form class="form" [formGroup]="registerForm" *ngIf="registering">
-    <ion-item>
+    <ion-item class="margin">
       <ion-label position="floating">Email</ion-label>
       <ion-input
         type="text"
@@ -57,7 +71,7 @@
         type="text"
         [(ngModel)]="user.username"
         name="Username"
-        (ionBlur)="blur()"
+        (ionBlur)="usernameCheck()"
         formControlName="username"
         required
       ></ion-input>
@@ -73,7 +87,7 @@
       >
         Username must be at least 3 characters long.
       </div>
-      <div id="userLabel"></div>
+      <div id="userLabel" class="error-message"></div>
     </div>
     <ion-item>
       <ion-label position="floating">Full name</ion-label>
@@ -130,16 +144,22 @@
         Please re-enter your password.
       </div>
     </div>
-    <ion-button ion-button type="submit" (click)="register()">
-      Register
-    </ion-button>
+    <div class="centerer">
+      <ion-button ion-button type="submit" class="buttons" (click)="register()">
+        Register
+      </ion-button>
+    </div>
   </form>
-  <ion-button id="register" (click)="switchTemplate()">
-    <p *ngIf="!registering">
-      New User? Click here to register
-    </p>
-    <p *ngIf="registering">
-      Already have an account? Click here to login
-    </p>
-  </ion-button>
+
+  <!-- Template change -->
+  <div class="centerer">
+    <ion-button id="register" Fill="clear" (click)="switchTemplate()">
+      <p *ngIf="!registering">
+        New User? Click here to register
+      </p>
+      <p *ngIf="registering">
+        Already have an account?
+      </p>
+    </ion-button>
+  </div>
 </ion-content>

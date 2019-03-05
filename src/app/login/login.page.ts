@@ -34,12 +34,21 @@ export class LoginPage implements OnInit {
     public navCtrl: NavController
   ) {}
 
+  ionViewWillEnter() {
+    this.registering = false;
+    this.resetForms();
+  }
+
   ngOnInit() {}
 
-  switchTemplate() {
+  resetForms() {
     this.user.username = null;
     this.user.password = null;
     this.registerForm.reset();
+  }
+
+  switchTemplate() {
+    this.resetForms();
     this.registering = !this.registering;
   }
 
@@ -90,24 +99,29 @@ export class LoginPage implements OnInit {
   register = () => {
     console.log(this.registerForm.status);
     console.log(this.registerForm);
-    if (this.user.password === this.re_password) {
-      if (this.registering && this.registerForm.status === "VALID") {
-        this.mediaProvider.userCheck(this.user).subscribe(
-          (res: UserCheck) => {
-            console.log("register");
-            if (res.available) {
-              this.registerPost();
-            } else {
-              this.presentAlert("Username already taken");
+    if (
+      this.registerForm.controls.email.status === "VALID" &&
+      this.registerForm.controls.username.status === "VALID"
+    ) {
+      if (this.user.password === this.re_password) {
+        if (this.registering && this.registerForm.status === "VALID") {
+          this.mediaProvider.userCheck(this.user).subscribe(
+            (res: UserCheck) => {
+              console.log("register");
+              if (res.available) {
+                this.registerPost();
+              } else {
+                this.presentAlert("Username already taken");
+              }
+            },
+            error => {
+              console.log(error);
             }
-          },
-          error => {
-            console.log(error);
-          }
-        );
+          );
+        }
+      } else {
+        this.presentAlert("Passwords did not match");
       }
-    } else {
-      this.presentAlert("Passwords did not match");
     }
   };
 
@@ -132,12 +146,11 @@ export class LoginPage implements OnInit {
     await alert.present();
   }
 
-  blur() {
+  usernameCheck() {
     const username = document.getElementById("userLabel");
 
     if (this.registering) {
       this.mediaProvider.userCheck(this.user).subscribe(res => {
-        console.log(res);
         if (
           !res.available &&
           this.registerForm.controls.username.status !== "INVALID"
