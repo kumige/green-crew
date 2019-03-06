@@ -19,13 +19,16 @@ export class Tab3Page {
   profileArray: Profile = { username: null };
   mediaUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   uploadsArray: Observable<IPic[]>;
+  allFiles: any = [];
 
   ngOnInit() {
     this.getUserData();
-    this.getMediaFiles();
+    // this.getMediaFiles();
   }
 
+  // Gets the users data (profile picture, username etc.) and the users uploaded posts
   getUserData() {
+    //Gets the profile picture and username
     this.mediaProvider.getProfileData().subscribe(res => {
       this.profileArray = res;
 
@@ -37,13 +40,29 @@ export class Tab3Page {
           }
         });
       });
+
+      // Gets the users uploaded posts
+      this.uploadsArray = this.mediaProvider.getFilesByTag("gc");
+
+      this.uploadsArray.forEach(element => {
+        element.forEach(element2 => {
+          if (element2.user_id !== this.profileArray.user_id) {
+            element.splice(0, 1);
+            console.log(element);
+
+            // Sorts the file by the file_id (gets the newest picture on top)
+            element.sort(function(a, b) {
+              return b.file_id - a.file_id;
+            });
+
+            this.allFiles = element;
+          }
+        });
+      });
     });
   }
 
-  getMediaFiles() {
-    this.uploadsArray = this.mediaProvider.getUserMedia();
-  }
-
+  // Logs out and clears the storage
   logout() {
     localStorage.removeItem("token");
     this.mediaProvider.loggedIn = false;

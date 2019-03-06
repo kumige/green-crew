@@ -20,7 +20,7 @@
   </ion-button>
 
   <ion-list>
-    <ion-card *ngFor="let item of (uploadsArray | async)">
+    <ion-card *ngFor="let item of allFiles">
       <ion-card-header>
         <div class="postTitle">
           <ion-card-title>{{ item.title }}</ion-card-title>
