@@ -1,17 +1,22 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
-      Home
-    </ion-title>
-    <ion-button *ngIf="this.mediaProvider.loggedIn" (click)="uploadClick()"
-      >upload</ion-button
-    >
+    <div class="toolbar">
+      <ion-title>
+        Home
+      </ion-title>
+      <ion-button *ngIf="this.mediaProvider.loggedIn" (click)="uploadClick()"
+        >upload</ion-button
+      >
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-card *ngFor="let item of (picArray | async)">
+    <ion-card
+      *ngFor="let item of (picArray | async)"
+      (click)="showSinglePost(item)"
+    >
       <ion-card-header>
         <div class="postTitle">
           <ion-card-title>{{ item.title }}</ion-card-title>
@@ -28,12 +33,18 @@
           class="thumbnail"
           *ngIf="item.media_type == 'image'"
           [alt]="item.title"
-          [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + item.filename"
+          [src]="
+            'http://media.mw.metropolia.fi/wbma/uploads/' +
+            (item.file_id | thumbnail: 'large' | async)
+          "
         />
         <img
           *ngIf="item.media_type == 'video'"
           [alt]="item.title"
-          [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + item.filename"
+          [src]="
+            'http://media.mw.metropolia.fi/wbma/uploads/' +
+            (item.file_id | thumbnail: 'screenshot' | async)
+          "
         />
 
         <p>{{ item.description }}</p>
