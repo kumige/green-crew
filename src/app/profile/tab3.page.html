@@ -18,4 +18,33 @@
   <ion-button (click)="logout()">
     Logout
   </ion-button>
+
+  <ion-list>
+    <ion-card *ngFor="let item of (uploadsArray | async)">
+      <ion-card-header>
+        <div class="postTitle">
+          <ion-card-title>{{ item.title }}</ion-card-title>
+          <ion-card-subtitle>{{ profileArray.username }}</ion-card-subtitle>
+        </div>
+
+        <ion-icon class="heart-empty" name="heart-empty"></ion-icon>
+      </ion-card-header>
+
+      <ion-card-content>
+        <img
+          class="thumbnail"
+          *ngIf="item.media_type == 'image'"
+          [alt]="item.title"
+          [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + item.filename"
+        />
+        <img
+          *ngIf="item.media_type == 'video'"
+          [alt]="item.title"
+          [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + item.filename"
+        />
+
+        <p>{{ item.description }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 </ion-content>
