@@ -3,12 +3,14 @@
   margin-right: 8px;
 }
 
-ion-card-header {
-  display: flex;
-  flex-flow: row;
-  justify-content: space-between;
-  .postTitle {
-    display: block;
+ion-card {
+  ion-card-header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    .postTitle {
+      display: block;
+    }
   }
 }
 
