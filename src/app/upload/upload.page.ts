@@ -91,4 +91,8 @@ export class UploadPage implements OnInit {
       console.log(res);
     });
   }
+
+  navBack() {
+    this.navCtrl.navigateBack("");
+  }
 }

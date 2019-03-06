@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="toolbar">
+      <ion-icon
+        class="back-arrow"
+        name="arrow-round-back"
+        (click)="navBack()"
+      ></ion-icon>
+      <ion-title>player</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <img
+    [src]="
+      'http://media.mw.metropolia.fi/wbma/uploads/' + this.postData.filename
+    "
+    [ngStyle]="getFilters()"
+  />
+
+  <video *ngIf="videoContent" width="320" height="240" controls>
+    <source
+      [src]="
+        'http://media.mw.metropolia.fi/wbma/uploads/' + this.postData.filename
+      "
+    />
+  </video>
+  <audio *ngIf="audioContent" controls>
+    <source
+      [src]="
+        'http://media.mw.metropolia.fi/wbma/uploads/' + this.postData.filename
+      "
+    />
+  </audio>
+  <ion-item class="profile">
+    <img [src]="this.getImg()" />
+    <div class="title">
+      <p>{{ this.postData.title }}</p>
+      <p class="user">by {{ this.postData.user_id | userData | async }}</p>
+    </div>
+  </ion-item>
+  <p>{{ this.postData.description }}</p>
+</ion-content>

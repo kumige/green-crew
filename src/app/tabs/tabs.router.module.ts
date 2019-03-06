@@ -44,6 +44,24 @@ const routes: Routes = [
         ]
       },
       {
+        path: "player",
+        children: [
+          {
+            path: "",
+            loadChildren: "../player/player.module#PlayerPageModule"
+          }
+        ]
+      },
+      {
+        path: "upload",
+        children: [
+          {
+            path: "",
+            loadChildren: "../upload/upload.module#UploadPageModule"
+          }
+        ]
+      },
+      {
         path: "",
         redirectTo: "/tabs/tab1",
         pathMatch: "full"

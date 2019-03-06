@@ -8,7 +8,8 @@ const routes: Routes = [
     path: "media-provider",
     loadChildren:
       "./media-provider/media-provider.module#MediaProviderPageModule"
-  },  { path: 'upload', loadChildren: './upload/upload.module#UploadPageModule' }
+  },  { path: 'upload', loadChildren: './upload/upload.module#UploadPageModule' },
+  { path: 'player', loadChildren: './player/player.module#PlayerPageModule' }
 
 ];
 @NgModule({

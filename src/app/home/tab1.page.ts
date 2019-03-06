@@ -4,6 +4,7 @@ import { IPic } from "./../interfaces/file";
 import { Component } from "@angular/core";
 import { Observable } from "rxjs";
 import { NavController } from "@ionic/angular";
+import { SingleMediaService } from "../services/single-media.service";
 
 @Component({
   selector: "app-tab1",
@@ -16,7 +17,8 @@ export class Tab1Page {
 
   constructor(
     public mediaProvider: MediaProviderPage,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public singleMediaService: SingleMediaService
   ) {}
 
   ngOnInit() {
@@ -28,6 +30,11 @@ export class Tab1Page {
   }
 
   uploadClick() {
-    this.navCtrl.navigateForward("/upload");
+    this.navCtrl.navigateForward("/tabs/upload");
+  }
+
+  showSinglePost(item) {
+    this.singleMediaService.setPost(item);
+    this.navCtrl.navigateForward("/tabs/player");
   }
 }
