@@ -10,10 +10,9 @@ import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { HttpClientModule } from "@angular/common/http";
-import { ThumbnailPipe } from "./pipes/thumbnail/thumbnail.pipe";
 
 @NgModule({
-  declarations: [AppComponent, ThumbnailPipe],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -25,8 +24,7 @@ import { ThumbnailPipe } from "./pipes/thumbnail/thumbnail.pipe";
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    MediaProviderPage,
-    ThumbnailPipe
+    MediaProviderPage
   ],
   bootstrap: [AppComponent]
 })

@@ -1,9 +1,9 @@
+import { UserDataPipe } from "./../pipes/userdata/user-data.pipe";
 import { MediaProviderPage } from "./../media-provider/media-provider.page";
 import { IPic } from "./../interfaces/file";
 import { Component } from "@angular/core";
 import { Observable } from "rxjs";
 import { NavController } from "@ionic/angular";
-import { UploadPage } from "../upload/upload.page";
 
 @Component({
   selector: "app-tab1",
@@ -12,6 +12,7 @@ import { UploadPage } from "../upload/upload.page";
 })
 export class Tab1Page {
   picArray: Observable<IPic[]>;
+  nameArray: Observable<[]>;
 
   constructor(
     public mediaProvider: MediaProviderPage,
