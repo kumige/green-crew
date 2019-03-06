@@ -91,6 +91,7 @@ export class LoginPage implements OnInit {
       },
       error => {
         console.log(error);
+        this.presentAlert("Username or password is incorrect");
       }
     );
     this.registerForm.reset();
