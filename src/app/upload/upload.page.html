@@ -17,35 +17,27 @@
   ></ion-item>
 
   <ion-item #uploadButtons>
-    <button
+    <ion-button
       *ngIf="!this.fileBlob"
-      ion-button
       type="button"
       clear
       (click)="chooseFile()"
     >
       Choose file
-    </button>
-    <button
-      *ngIf="this.fileBlob"
-      ion-button
-      type="button"
-      clear
-      (click)="resetForm()"
-    >
+    </ion-button>
+    <ion-button *ngIf="this.fileBlob" type="button" clear (click)="resetForm()">
       Reset
-    </button>
+    </ion-button>
   </ion-item>
 
-  <button
+  <ion-button
     *ngIf="this.fileBlob && this.fileTitle.length > 2"
-    ion-button
     type="button"
     block
     (click)="upload()"
   >
     Upload
-  </button>
+  </ion-button>
 
   <ion-card *ngIf="this.fileData">
     <img id="preview" [ngStyle]="getFilters()" [src]="this.fileData" />

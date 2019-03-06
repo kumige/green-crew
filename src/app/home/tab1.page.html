@@ -13,38 +13,30 @@
   <ion-list>
     <ion-card *ngFor="let item of (picArray | async)">
       <ion-card-header>
-        <ion-card-title>{{ item.title }}</ion-card-title>
-        <ion-card-subtitle>{{
-          item.time_added | date: "d/M/yy"
-        }}</ion-card-subtitle>
+        <div class="postTitle">
+          <ion-card-title>{{ item.title }}</ion-card-title>
+          <ion-card-subtitle>{{
+            item.user_id | userData | async
+          }}</ion-card-subtitle>
+        </div>
+
+        <ion-icon class="heart-empty" name="heart-empty"></ion-icon>
       </ion-card-header>
 
       <ion-card-content>
-        <ion-thumbnail item-start>
-          <img
-            *ngIf="item.media_type == 'image'"
-            [alt]="item.title"
-            [src]="
-              'http://media.mw.metropolia.fi/wbma/uploads/' + item.filename
-            "
-          />
-          <img
-            *ngIf="item.media_type == 'video'"
-            [alt]="item.title"
-            [src]="
-              'http://media.mw.metropolia.fi/wbma/uploads/' + item.filename
-            "
-          />
-        </ion-thumbnail>
+        <img
+          class="thumbnail"
+          *ngIf="item.media_type == 'image'"
+          [alt]="item.title"
+          [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + item.filename"
+        />
+        <img
+          *ngIf="item.media_type == 'video'"
+          [alt]="item.title"
+          [src]="'http://media.mw.metropolia.fi/wbma/uploads/' + item.filename"
+        />
+
         <p>{{ item.description }}</p>
-        <ion-button
-          class="viewButton"
-          clear
-          item-end
-          (click)="itemSelected(item)"
-        >
-          View
-        </ion-button>
       </ion-card-content>
     </ion-card>
   </ion-list>
