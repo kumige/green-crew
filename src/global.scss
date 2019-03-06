@@ -29,3 +29,19 @@ $gc-danger: #f53d3d;
 
 /** Gc font **/
 $font-family: "helvetica Neue";
+
+:root {
+  /* Set the background of the entire app */
+  --ion-background-color: #f4f4f4;
+
+  ion-button {
+    color: $gc-light;
+    --background: #64ad4e;
+  }
+
+  .clearButton {
+    --color-activated: #64ad4e;
+    color: $gc-secondary;
+    --background: $gc-light;
+  }
+}

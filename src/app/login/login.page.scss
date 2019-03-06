@@ -1,11 +1,5 @@
 @import "../../global.scss";
 
-:host {
-  ion-content {
-    --background: #f4f4f4;
-  }
-}
-
 .gcLogo {
   margin-top: 15px;
   width: 80%;
@@ -13,12 +7,6 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-}
-
-:host {
-  --ion-item-background: #f4f4f4;
-  --highlight-background: #f4f4f4;
-  --background-focused: #f4f4f4;
 }
 
 ion-item {
@@ -38,15 +26,11 @@ ion-item {
 
 .buttons {
   margin-top: 45px;
-  color: $gc-light;
-  --background: #64ad4e;
 }
 
 #register {
-  color: $gc-secondary;
   margin-top: 15px;
   font-size: 12px;
-  --color-activated: #64ad4e;
 }
 
 .validation-errors {

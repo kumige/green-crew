@@ -153,7 +153,12 @@
 
   <!-- Template change -->
   <div class="centerer">
-    <ion-button id="register" Fill="clear" (click)="switchTemplate()">
+    <ion-button
+      id="register"
+      class="clearButton"
+      Fill="clear"
+      (click)="switchTemplate()"
+    >
       <p *ngIf="!registering">
         New User? Click here to register
       </p>
