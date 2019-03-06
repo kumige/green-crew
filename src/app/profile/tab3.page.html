@@ -7,6 +7,14 @@
 </ion-header>
 
 <ion-content>
+  <img src="{{ profileArray.filename }}" />
+  <ion-list>
+    <ion-item>
+      <h2>{{ profileArray.username }}</h2>
+      <p>{{ profileArray.email }}</p>
+    </ion-item>
+  </ion-list>
+
   <ion-button (click)="logout()">
     Logout
   </ion-button>
