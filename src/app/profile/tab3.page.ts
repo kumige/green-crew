@@ -21,9 +21,9 @@ export class Tab3Page {
   uploadsArray: Observable<IPic[]>;
   allFiles: any = [];
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    this.allFiles = [];
     this.getUserData();
-    // this.getMediaFiles();
   }
 
   // Gets the users data (profile picture, username etc.) and the users uploaded posts
@@ -46,16 +46,16 @@ export class Tab3Page {
 
       this.uploadsArray.forEach(element => {
         element.forEach(element2 => {
-          if (element2.user_id !== this.profileArray.user_id) {
-            element.splice(0, 1);
-            console.log(element);
+          if (element2.user_id === this.profileArray.user_id) {
+            //console.log(element2);
+            this.allFiles.push(element2);
 
             // Sorts the file by the file_id (gets the newest picture on top)
-            element.sort(function(a, b) {
+            this.allFiles.sort(function(a, b) {
               return b.file_id - a.file_id;
             });
 
-            this.allFiles = element;
+            console.log(this.allFiles);
           }
         });
       });

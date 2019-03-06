@@ -1,1 +1,60 @@
+@import "../../global.scss";
 
+.heart-empty {
+  color: #64ad4e;
+  font-size: 28px;
+}
+
+ion-card {
+  ion-card-header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    .postTitle {
+      display: block;
+    }
+  }
+}
+
+.thumbnail {
+  width: fit-content;
+  margin-right: 8px;
+}
+
+.viewButton {
+  float: right;
+}
+
+.profilePicture {
+  width: 175px;
+  height: 175px;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  //border: 2px solid rgb(115, 115, 115);
+  border-radius: 50%;
+  box-shadow: 0 0 5px #737373;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.userInfo {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  div {
+    display: block;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 0px;
+  }
+
+  p {
+    text-align: center;
+    margin-top: 0px;
+    font-size: 16px;
+    color: gray;
+  }
+}
