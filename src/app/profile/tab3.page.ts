@@ -1,9 +1,11 @@
 import { Component } from "@angular/core";
 import { MediaProviderPage } from "../media-provider/media-provider.page";
-import { NavController } from "@ionic/angular";
+import { NavController, PopoverController } from "@ionic/angular";
 import { Profile } from "../interfaces/user";
 import { IPic } from "./../interfaces/file";
 import { Observable } from "rxjs";
+import { ProfilePopoverComponent } from "../profile-popover/profile-popover.component";
+import { SingleMediaService } from "../services/single-media.service";
 
 @Component({
   selector: "app-tab3",
@@ -13,13 +15,17 @@ import { Observable } from "rxjs";
 export class Tab3Page {
   constructor(
     public mediaProvider: MediaProviderPage,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public popoverController: PopoverController,
+    public singleMediaService: SingleMediaService
   ) {}
 
   profileArray: Profile = { username: null };
   mediaUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   uploadsArray: Observable<IPic[]>;
   allFiles: any = [];
+  toggled: boolean;
+  buttonColor: string;
 
   // Background images
   images = [
@@ -28,8 +34,7 @@ export class Tab3Page {
     "../../../assets/Gc-Background3.jpg",
     "../../../assets/Gc-Background4.jpg",
     "../../../assets/Gc-Background5.jpg",
-    "../../../assets/Gc-Background6.jpg",
-    "../../../assets/Gc-Background7.jpg"
+    "../../../assets/Gc-Background6.jpg"
   ];
 
   ionViewWillEnter() {
@@ -88,5 +93,30 @@ export class Tab3Page {
     ];
     console.log(randomValue);
     document.getElementById("backgroundImage").setAttribute("src", randomValue);
+  }
+
+  // Opens a post
+  showSinglePost(item) {
+    this.singleMediaService.setPost(item);
+    this.navCtrl.navigateForward("/tabs/player");
+  }
+
+  // Presents popover
+  async presentPopover(event) {
+    const popover = await this.popoverController.create({
+      component: ProfilePopoverComponent,
+      event
+    });
+    return await popover.present();
+  }
+
+  colorChange() {
+    if (this.toggled) {
+      this.buttonColor = "#ffffff";
+      this.toggled = false;
+    } else {
+      this.buttonColor = "#f4f4f4"; //hex code for previous color
+      this.toggled = true;
+    }
   }
 }

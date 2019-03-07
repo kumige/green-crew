@@ -3,6 +3,15 @@
     <ion-title>
       Profile
     </ion-title>
+    <div slot="end">
+      <ion-button
+        class="clearButton"
+        Fill="clear"
+        (click)="presentPopover($event)"
+      >
+        <ion-icon name="more"></ion-icon>
+      </ion-button>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -19,12 +28,26 @@
     </div>
   </ion-list>
 
-  <ion-button (click)="logout()">
+  <!-- <ion-button (click)="logout()">
     Logout
-  </ion-button>
+  </ion-button> -->
+  <div class="postsButtons">
+    <ion-button
+      id="uploadsButton"
+      class="clearButton"
+      Fill="clear"
+      (click)="colorChange()"
+      [ngStyle]="{ 'background-color': buttonColor }"
+    >
+      Uploads
+    </ion-button>
+    <ion-button id="favouritesButton" class="clearButton" Fill="clear">
+      Favourites
+    </ion-button>
+  </div>
 
   <ion-list>
-    <ion-card *ngFor="let item of allFiles">
+    <ion-card *ngFor="let item of allFiles" (click)="showSinglePost(item)">
       <ion-card-header>
         <div class="postTitle">
           <ion-card-title>{{ item.title }}</ion-card-title>
