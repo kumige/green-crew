@@ -21,9 +21,21 @@ export class Tab3Page {
   uploadsArray: Observable<IPic[]>;
   allFiles: any = [];
 
+  // Background images
+  images = [
+    "../../../assets/Gc-Background1.jpg",
+    "../../../assets/Gc-Background2.jpg",
+    "../../../assets/Gc-Background3.jpg",
+    "../../../assets/Gc-Background4.jpg",
+    "../../../assets/Gc-Background5.jpg",
+    "../../../assets/Gc-Background6.jpg",
+    "../../../assets/Gc-Background7.jpg"
+  ];
+
   ionViewWillEnter() {
     this.allFiles = [];
     this.getUserData();
+    this.randomImage();
   }
 
   // Gets the users data (profile picture, username etc.) and the users uploaded posts
@@ -67,5 +79,14 @@ export class Tab3Page {
     localStorage.removeItem("token");
     this.mediaProvider.loggedIn = false;
     this.navCtrl.navigateBack("");
+  }
+
+  // Gets a random image for a background
+  randomImage() {
+    let randomValue = this.images[
+      Math.floor(this.images.length * Math.random())
+    ];
+    console.log(randomValue);
+    document.getElementById("backgroundImage").setAttribute("src", randomValue);
   }
 }
