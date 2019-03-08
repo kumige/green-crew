@@ -24,6 +24,14 @@
   padding-left: 8px;
 }
 
+.textarea {
+  border: 1px solid gray;
+  border-radius: 4px;
+  .text {
+    height: 180px;
+  }
+}
+
 .flex-row {
   display: flex;
   flex-flow: row;

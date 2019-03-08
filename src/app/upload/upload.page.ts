@@ -59,7 +59,8 @@ export class UploadPage implements OnInit {
   ngOnInit() {
     this.uploadForm = this.formBuilder.group({
       name: ["", Validators.required],
-      ingredient: this.formBuilder.array([this.createIngredient()])
+      ingredient: this.formBuilder.array([this.createIngredient()]),
+      instructions: ["", Validators.required]
     });
   }
 
@@ -79,10 +80,6 @@ export class UploadPage implements OnInit {
   removeIngredientField() {
     this.ingredient = this.uploadForm.get("ingredient") as FormArray;
     this.ingredient.removeAt(this.ingredient.length - 1);
-  }
-
-  getDescription(ing) {
-    console.log(ing);
   }
 
   chooseFile() {
@@ -121,6 +118,7 @@ export class UploadPage implements OnInit {
     this.fileData = null;
     this.fileBlob = null;
     this.file = null;
+    this.uploadForm.reset();
   }
 
   upload() {
@@ -129,7 +127,7 @@ export class UploadPage implements OnInit {
     const fd = new FormData();
     fd.append("file", this.fileBlob);
     fd.append("title", this.fileTitle);
-    fd.append("description", this.fileDesc);
+    fd.append("description", JSON.stringify(this.uploadForm.value));
     this.mediaProvider.upload(fd).subscribe((res: any) => {
       this.addFilterTag(res.file_id);
       setTimeout(() => {

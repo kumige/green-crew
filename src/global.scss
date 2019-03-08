@@ -57,4 +57,10 @@ $font-family: "helvetica Neue";
     color: $gc-secondary;
     --background: $gc-light;
   }
+
+  .feedDesc {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
