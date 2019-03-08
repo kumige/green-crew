@@ -1,0 +1,30 @@
+.ingredient {
+  width: 100%;
+  box-shadow: 1;
+}
+
+.amount {
+  width: 100%;
+}
+
+.uploadCenterer {
+  display: flex;
+  justify-content: center;
+}
+
+.uploadInfo {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.vl {
+  border-left: 2px solid #64ad4e;
+  height: 32px;
+  padding-left: 8px;
+}
+
+.flex-row {
+  display: flex;
+  flex-flow: row;
+}
