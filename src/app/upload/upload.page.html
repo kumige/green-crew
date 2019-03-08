@@ -12,16 +12,86 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>Upload media</h2>
-  <ion-item>
-    <ion-label floating>Title</ion-label>
-    <ion-input type="text" [(ngModel)]="this.fileTitle"></ion-input
-  ></ion-item>
+  <h2 class="uploadCenterer">Post a recipe!</h2>
+  <form [formGroup]="uploadForm" (ngSubmit)="getDescription(uploadForm.value)">
+    <ion-item>
+      <ion-label position="floating">Food Title</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="this.fileTitle"
+        formControlName="name"
+      ></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label floating>Description</ion-label>
-    <ion-textarea [(ngModel)]="this.fileDesc"> </ion-textarea
-  ></ion-item>
+    <h3 class="uploadCenterer">Ingredients</h3>
+    <ion-list>
+      <!-- Assign the technologies FormArray to the form
+              where we want to track/generate new input track fields -->
+      <div formArrayName="ingredient">
+        <!-- Assign a FormGroupName property binding to track
+                 and manage each separate generated input field.
+                 Also iterate through the technologies FormArray to
+                 correctly track/render new input fields against
+                 existing fields -->
+        <section
+          [formGroupName]="i"
+          *ngFor="
+            let ing of uploadForm.controls.ingredient.controls;
+            let i = index
+          "
+        >
+          <ion-item-group>
+            <ion-item>
+              <ion-row>
+                <ion-col size="9">
+                  <ion-input
+                    formControlName="name"
+                    class="ingredient"
+                    type="text"
+                    placeholder="Ingredient name"
+                  ></ion-input>
+                </ion-col>
+                <ion-col class="flex-row" size="3">
+                  <span class="vl"></span>
+                  <ion-input
+                    formControlName="amount"
+                    class="amount"
+                    type="text"
+                    placeholder="Amount"
+                  ></ion-input>
+                </ion-col>
+              </ion-row>
+            </ion-item>
+          </ion-item-group>
+        </section>
+      </div>
+
+      <ion-button float-left icon-left (click)="addIngredientField()">
+        <ion-icon name="add"></ion-icon>
+        Add a new ingredient
+      </ion-button>
+      <ion-button
+        float-right
+        icon-left
+        Fill="clear"
+        *ngIf="uploadForm.controls.ingredient.length > 1"
+        (click)="removeIngredientField()"
+      >
+        <ion-icon name="close"></ion-icon>
+        Remove
+      </ion-button>
+    </ion-list>
+
+    <ion-button
+      Fill="block"
+      margin-top
+      text-center
+      type="submit"
+      [disabled]="!uploadForm.valid"
+    >
+      Submit
+    </ion-button>
+  </form>
 
   <ion-item #uploadButtons>
     <ion-button
@@ -30,7 +100,7 @@
       clear
       (click)="chooseFile()"
     >
-      Choose file
+      Choose an image!
     </ion-button>
     <ion-button *ngIf="this.fileBlob" type="button" clear (click)="resetForm()">
       Reset

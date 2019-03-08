@@ -2,6 +2,14 @@ import { Chooser } from "@ionic-native/chooser/ngx";
 import { MediaProviderPage } from "./../media-provider/media-provider.page";
 import { Component, OnInit } from "@angular/core";
 import { NavController, LoadingController } from "@ionic/angular";
+import { DomSanitizer } from "@angular/platform-browser";
+import {
+  Validators,
+  FormGroup,
+  FormControl,
+  FormArray,
+  FormBuilder
+} from "@angular/forms";
 
 @Component({
   selector: "app-upload",
@@ -9,6 +17,11 @@ import { NavController, LoadingController } from "@ionic/angular";
   styleUrls: ["./upload.page.scss"]
 })
 export class UploadPage implements OnInit {
+  uploadForm: FormGroup;
+  ingredient: FormArray;
+  ingredientList = new Array();
+  ingredientCount = 1;
+  allIngredients: string;
   fileTitle: string;
   fileDesc: string;
   fileData: string;
@@ -19,14 +32,58 @@ export class UploadPage implements OnInit {
   saturation = 100;
   sepia = 0;
 
-  ngOnInit() {}
+  /* ingredient row template
+  `
+    <ion-item>
+      <ion-row>
+        <ion-col size="9">
+          <ion-input class="ingredient" type="text"></ion-input>
+        </ion-col>
+        <ion-col size="3">
+          <ion-input class="amount" type="text"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  `
+  */
 
   constructor(
     public navCtrl: NavController,
     public mediaProvider: MediaProviderPage,
     public loadingCtrl: LoadingController,
-    public chooser: Chooser
+    public chooser: Chooser,
+    public domSanitizer: DomSanitizer,
+    public formBuilder: FormBuilder
   ) {}
+
+  ngOnInit() {
+    this.uploadForm = this.formBuilder.group({
+      name: ["", Validators.required],
+      ingredient: this.formBuilder.array([this.createIngredient()])
+    });
+  }
+
+  createIngredient() {
+    return this.formBuilder.group({
+      name: [""],
+      amount: [""]
+    });
+  }
+
+  addIngredientField() {
+    console.log(this.uploadForm.valid);
+    this.ingredient = this.uploadForm.get("ingredient") as FormArray;
+    this.ingredient.push(this.createIngredient());
+  }
+
+  removeIngredientField() {
+    this.ingredient = this.uploadForm.get("ingredient") as FormArray;
+    this.ingredient.removeAt(this.ingredient.length - 1);
+  }
+
+  getDescription(ing) {
+    console.log(ing);
+  }
 
   chooseFile() {
     this.chooser
