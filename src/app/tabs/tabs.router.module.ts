@@ -62,6 +62,16 @@ const routes: Routes = [
         ]
       },
       {
+        path: "profile-edit",
+        children: [
+          {
+            path: "",
+            loadChildren:
+              "../profile-edit/profile-edit.module#ProfileEditPageModule"
+          }
+        ]
+      },
+      {
         path: "",
         redirectTo: "/tabs/tab1",
         pathMatch: "full"

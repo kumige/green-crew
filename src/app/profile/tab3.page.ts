@@ -24,6 +24,7 @@ export class Tab3Page {
   mediaUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   uploadsArray: Observable<IPic[]>;
   allFiles: any = [];
+  randomPicture: string;
   favourites: boolean = false;
   buttonColor: string;
   buttonColor2: string = "#E9E9E9";
@@ -39,9 +40,10 @@ export class Tab3Page {
   ];
 
   ionViewWillEnter() {
+    this.randomImage();
     this.allFiles = [];
     this.getUserData();
-    this.randomImage();
+    this.profilesUploads();
   }
 
   // Gets the users data (profile picture, username etc.) and the users uploaded posts
@@ -58,6 +60,9 @@ export class Tab3Page {
           }
         });
       });
+      // sets the profileArray in the single media service
+      this.singleMediaService.setProfileData(this.profileArray);
+      this.singleMediaService.setProfileBackground(this.randomPicture);
 
       // Gets the users uploaded posts
       this.uploadsArray = this.mediaProvider.getFilesByTag("gc");
@@ -89,11 +94,13 @@ export class Tab3Page {
 
   // Gets a random image for a background
   randomImage() {
-    let randomValue = this.images[
+    this.randomPicture = this.images[
       Math.floor(this.images.length * Math.random())
     ];
-    console.log(randomValue);
-    document.getElementById("backgroundImage").setAttribute("src", randomValue);
+    console.log(this.randomPicture);
+    document
+      .getElementById("backgroundImage")
+      .setAttribute("src", this.randomPicture);
   }
 
   // Opens a post
@@ -119,7 +126,6 @@ export class Tab3Page {
       this.favourites = false;
     }
   }
-
   favouritesUploads() {
     if (!this.favourites) {
       this.buttonColor = "#E9E9E9";

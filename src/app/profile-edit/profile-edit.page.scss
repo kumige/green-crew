@@ -1,30 +1,3 @@
-@import "../../global.scss";
-
-.heart-empty {
-  color: #64ad4e;
-  font-size: 28px;
-}
-
-ion-card {
-  ion-card-header {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    .postTitle {
-      display: block;
-    }
-  }
-}
-
-.thumbnail {
-  width: fit-content;
-  margin-right: 8px;
-}
-
-.viewButton {
-  float: right;
-}
-
 .profilePicture {
   width: 175px;
   height: 175px;
@@ -66,23 +39,4 @@ ion-card {
   margin: 0px;
   height: 240px;
   width: 100%;
-}
-
-.postsButtons {
-  margin-bottom: 15px;
-
-  ion-button {
-    width: 50%;
-    margin-left: 0;
-    margin-right: 0;
-    border: 1px;
-    border-top-style: solid;
-    --color-activated: #3f6e31;
-  }
-  #uploadsButton {
-    border-right-style: solid;
-  }
-
-  #favouritesButton {
-  }
 }

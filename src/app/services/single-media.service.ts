@@ -5,6 +5,9 @@ import { Injectable } from "@angular/core";
 })
 export class SingleMediaService {
   singlePost: {};
+
+  profileArray: { username: null };
+  profileImage;
   constructor() {}
 
   setPost(postData) {
@@ -15,5 +18,21 @@ export class SingleMediaService {
   getPost() {
     console.log("getPost called", this.singlePost);
     return this.singlePost;
+  }
+
+  setProfileData(profileArray) {
+    this.profileArray = profileArray;
+  }
+
+  setProfileBackground(image) {
+    this.profileImage = image;
+  }
+
+  getProfileData() {
+    return this.profileArray;
+  }
+
+  getProfileBackground() {
+    return this.profileImage;
   }
 }

@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="toolbar">
+      <ion-icon
+        class="back-arrow"
+        name="arrow-round-back"
+        (click)="navBack()"
+      ></ion-icon>
+      <ion-title>profileEdit</ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <img id="backgroundImage" src="../../../assets/Gc-Background6.jpg" />
+
+  <ion-avatar class="profilePicture"
+    ><img src="{{ profileArray.filename }}"
+  /></ion-avatar>
+  <ion-list class="userInfo">
+    <div lines="none">
+      <h2>{{ profileArray.username }}</h2>
+      <p>{{ profileArray.full_name }}</p>
+    </div>
+
+    <ion-item>
+      <ion-label id="userLabel" position="floating">Username</ion-label>
+      <ion-input type="text" name="Username" required></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>

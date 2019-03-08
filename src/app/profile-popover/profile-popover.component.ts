@@ -26,4 +26,9 @@ export class ProfilePopoverComponent implements OnInit {
     this.navCtrl.navigateBack("");
     this.close();
   }
+
+  editProfile() {
+    this.navCtrl.navigateForward("tabs/profile-edit");
+    this.close();
+  }
 }

@@ -8,9 +8,13 @@ const routes: Routes = [
     path: "media-provider",
     loadChildren:
       "./media-provider/media-provider.module#MediaProviderPageModule"
-  },  { path: 'upload', loadChildren: './upload/upload.module#UploadPageModule' },
-  { path: 'player', loadChildren: './player/player.module#PlayerPageModule' }
-
+  },
+  { path: "upload", loadChildren: "./upload/upload.module#UploadPageModule" },
+  { path: "player", loadChildren: "./player/player.module#PlayerPageModule" },
+  {
+    path: "profile-edit",
+    loadChildren: "./profile-edit/profile-edit.module#ProfileEditPageModule"
+  }
 ];
 @NgModule({
   imports: [
