@@ -30,3 +30,13 @@ export interface UserCheck {
   username: string;
   available: boolean;
 }
+
+export interface ProfileEdit {
+  username?: string;
+  email?: string;
+  password?: string;
+}
+
+export interface EditResponse {
+  message: string;
+}

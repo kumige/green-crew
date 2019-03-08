@@ -34,10 +34,7 @@ export class LoginPage implements OnInit {
     public navCtrl: NavController
   ) {}
 
-  ionViewWillEnter() {
-    this.registering = false;
-    this.resetForms();
-  }
+  ionViewWillEnter() {}
 
   ngOnInit() {}
 
@@ -94,6 +91,7 @@ export class LoginPage implements OnInit {
         this.presentAlert("Username or password is incorrect");
       }
     );
+    this.registering = false;
     this.registerForm.reset();
   };
 

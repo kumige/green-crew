@@ -193,4 +193,17 @@ export class MediaProviderPage implements OnInit {
       httpOptions
     );
   }
+
+  editProfile(data: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "x-access-token": localStorage.getItem("token")
+      })
+    };
+    return this.http.put(
+      "http://media.mw.metropolia.fi/wbma/users",
+      data,
+      httpOptions
+    );
+  }
 }

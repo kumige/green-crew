@@ -1,3 +1,5 @@
+@import "../../global.scss";
+
 .profilePicture {
   width: 175px;
   height: 175px;
@@ -34,9 +36,54 @@
   }
 }
 
-#backgroundImage {
+.background {
   position: absolute;
   margin: 0px;
   height: 240px;
   width: 100%;
+}
+
+ion-item {
+  margin-top: 5px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+
+  ion-label {
+    color: $gc-secondary;
+  }
+}
+
+.centerer {
+  text-align: center;
+
+  ion-button {
+    margin-top: 45px;
+  }
+}
+
+.infoMessage {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  color: $gc-primary;
+  ion-icon {
+    font-size: 18px;
+    display: block;
+  }
+  p {
+    font-size: 13px;
+    display: block;
+  }
+}
+
+form {
+  margin-top: 0px;
+  .username {
+    margin-top: 0px;
+    ion-label {
+      margin-top: 0px;
+    }
+  }
 }
