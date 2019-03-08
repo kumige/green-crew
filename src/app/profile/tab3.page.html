@@ -3,24 +3,57 @@
     <ion-title>
       Profile
     </ion-title>
+    <div slot="end">
+      <ion-button
+        class="clearButton"
+        Fill="clear"
+        (click)="presentPopover($event)"
+      >
+        <ion-icon name="more"></ion-icon>
+      </ion-button>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <img src="{{ profileArray.filename }}" />
-  <ion-list>
-    <ion-item>
+  <img id="backgroundImage" src="../../../assets/Gc-Background4.jpg" />
+
+  <ion-avatar class="profilePicture"
+    ><img src="{{ profileArray.filename }}"
+  /></ion-avatar>
+  <ion-list class="userInfo">
+    <div lines="none">
       <h2>{{ profileArray.username }}</h2>
-      <p>{{ profileArray.email }}</p>
-    </ion-item>
+      <p>{{ profileArray.full_name }}</p>
+    </div>
   </ion-list>
 
-  <ion-button (click)="logout()">
+  <!-- <ion-button (click)="logout()">
     Logout
-  </ion-button>
+  </ion-button> -->
+  <div class="postsButtons">
+    <ion-button
+      id="uploadsButton"
+      class="clearButton"
+      Fill="clear"
+      (click)="profilesUploads()"
+      [ngStyle]="{ 'background-color': buttonColor }"
+    >
+      Uploads
+    </ion-button>
+    <ion-button
+      id="favouritesButton"
+      class="clearButton"
+      Fill="clear"
+      (click)="favouritesUploads()"
+      [ngStyle]="{ 'background-color': buttonColor2 }"
+    >
+      Favourites
+    </ion-button>
+  </div>
 
-  <ion-list>
-    <ion-card *ngFor="let item of (uploadsArray | async)">
+  <ion-list *ngIf="!favourites">
+    <ion-card *ngFor="let item of allFiles" (click)="showSinglePost(item)">
       <ion-card-header>
         <div class="postTitle">
           <ion-card-title>{{ item.title }}</ion-card-title>

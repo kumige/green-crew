@@ -80,7 +80,7 @@ export class LoginPage implements OnInit {
   login = () => {
     this.mediaProvider.login(this.user).subscribe(
       (res: LoginResponse) => {
-        console.log("login res:" + res);
+        console.log(res);
         if (!this.mediaProvider.loggedIn) {
           this.mediaProvider.loggedIn = true;
           localStorage.setItem("token", res.token);

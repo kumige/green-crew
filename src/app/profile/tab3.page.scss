@@ -1,1 +1,87 @@
+@import "../../global.scss";
 
+.heart-empty {
+  color: #64ad4e;
+  font-size: 28px;
+}
+
+ion-card {
+  ion-card-header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    .postTitle {
+      display: block;
+    }
+  }
+}
+
+.thumbnail {
+  width: fit-content;
+  margin-right: 8px;
+}
+
+.viewButton {
+  float: right;
+}
+
+.profilePicture {
+  width: 175px;
+  height: 175px;
+  margin-top: 150px;
+  margin-bottom: 0px;
+  border: 7px solid #f4f4f4;
+  border-radius: 50%;
+  //box-shadow: 0 0 5px #737373;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+.userInfo {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  div {
+    display: block;
+  }
+
+  h2 {
+    margin-top: 0px;
+    text-align: center;
+    margin-bottom: 0px;
+  }
+
+  p {
+    text-align: center;
+    margin-top: 0px;
+    font-size: 16px;
+    color: gray;
+  }
+}
+
+#backgroundImage {
+  position: absolute;
+  margin: 0px;
+  height: 240px;
+  width: 100%;
+}
+
+.postsButtons {
+  margin-bottom: 15px;
+
+  ion-button {
+    width: 50%;
+    margin-left: 0;
+    margin-right: 0;
+    border: 1px;
+    border-top-style: solid;
+  }
+  #uploadsButton {
+    border-right-style: solid;
+  }
+
+  #favouritesButton {
+  }
+}
