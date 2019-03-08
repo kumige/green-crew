@@ -69,6 +69,8 @@ ion-card {
 }
 
 .postsButtons {
+  margin-bottom: 15px;
+
   ion-button {
     width: 50%;
     margin-left: 0;
@@ -77,6 +79,7 @@ ion-card {
     border-top-style: solid;
   }
   #uploadsButton {
+    border-right-style: solid;
   }
 
   #favouritesButton {

@@ -24,8 +24,9 @@ export class Tab3Page {
   mediaUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   uploadsArray: Observable<IPic[]>;
   allFiles: any = [];
-  toggled: boolean;
+  favourites: boolean = false;
   buttonColor: string;
+  buttonColor2: string = "#E9E9E9";
 
   // Background images
   images = [
@@ -110,13 +111,20 @@ export class Tab3Page {
     return await popover.present();
   }
 
-  colorChange() {
-    if (this.toggled) {
-      this.buttonColor = "#ffffff";
-      this.toggled = false;
-    } else {
-      this.buttonColor = "#f4f4f4"; //hex code for previous color
-      this.toggled = true;
+  // Changes the buttons colors and status (which posts to show)
+  profilesUploads() {
+    if (this.favourites) {
+      this.buttonColor = "#f4f4f4";
+      this.buttonColor2 = "#E9E9E9";
+      this.favourites = false;
+    }
+  }
+
+  favouritesUploads() {
+    if (!this.favourites) {
+      this.buttonColor = "#E9E9E9";
+      this.buttonColor2 = "#f4f4f4";
+      this.favourites = true;
     }
   }
 }

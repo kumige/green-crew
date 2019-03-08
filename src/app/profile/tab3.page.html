@@ -36,17 +36,23 @@
       id="uploadsButton"
       class="clearButton"
       Fill="clear"
-      (click)="colorChange()"
+      (click)="profilesUploads()"
       [ngStyle]="{ 'background-color': buttonColor }"
     >
       Uploads
     </ion-button>
-    <ion-button id="favouritesButton" class="clearButton" Fill="clear">
+    <ion-button
+      id="favouritesButton"
+      class="clearButton"
+      Fill="clear"
+      (click)="favouritesUploads()"
+      [ngStyle]="{ 'background-color': buttonColor2 }"
+    >
       Favourites
     </ion-button>
   </div>
 
-  <ion-list>
+  <ion-list *ngIf="!favourites">
     <ion-card *ngFor="let item of allFiles" (click)="showSinglePost(item)">
       <ion-card-header>
         <div class="postTitle">
