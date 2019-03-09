@@ -20,3 +20,24 @@
     }
   }
 }
+
+.description {
+  display: flex;
+  flex-flow: column;
+  width: 80%;
+  margin: 0;
+  .title {
+    margin: 16px;
+  }
+  .ingredients {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    .single {
+    }
+  }
+  .instructions {
+    margin-top: 16px;
+  }
+}

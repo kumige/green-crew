@@ -3,6 +3,7 @@ import { MediaProviderPage } from "./../media-provider/media-provider.page";
 import { SingleMediaService } from "./../services/single-media.service";
 import { Component, OnInit } from "@angular/core";
 import { NavController } from "@ionic/angular";
+import { IDesc } from "../interfaces/file";
 
 @Component({
   selector: "app-player",
@@ -11,6 +12,7 @@ import { NavController } from "@ionic/angular";
 })
 export class PlayerPage implements OnInit {
   postData;
+  description: IDesc;
   picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   user: Profile;
   thumbnail: string;
@@ -33,6 +35,8 @@ export class PlayerPage implements OnInit {
 
   getPost() {
     this.postData = this.singleMediaService.getPost();
+    this.description = this.singleMediaService.getDescription();
+    //console.log(this.description);
   }
 
   getFilters() {

@@ -63,4 +63,10 @@ $font-family: "helvetica Neue";
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .centerer {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+  }
 }

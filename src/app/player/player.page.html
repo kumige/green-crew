@@ -40,5 +40,16 @@
       <p class="user">by {{ this.postData.user_id | userData | async }}</p>
     </div>
   </ion-item>
-  <p>{{ this.postData.description }}</p>
+  <div class="centerer">
+    <section class="description">
+      <h2 class="title centerer">{{ this.description.name }}</h2>
+      <div class="ingredients" *ngFor="let ing of this.description.ingredient">
+        <span class="single">{{ ing.name }}</span>
+        <span class="single">{{ ing.amount }}</span>
+      </div>
+      <div class="instructions centerer">
+        {{ this.description.instructions }}
+      </div>
+    </section>
+  </div>
 </ion-content>
