@@ -17,3 +17,14 @@ export interface IThumbnail {
   w320?: string;
   w640?: string;
 }
+
+export interface IDesc {
+  name: string;
+  ingredients: IIng;
+  instructions: string;
+}
+
+export interface IIng {
+  name: string;
+  amount: string;
+}

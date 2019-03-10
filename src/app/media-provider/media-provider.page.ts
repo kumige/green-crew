@@ -40,8 +40,22 @@ export class MediaProviderPage implements OnInit {
   }
 
   getFilesByTag(tag) {
-    return this.http.get<IPic[]>(
+    return this.http.get<[any]>(
       "http://media.mw.metropolia.fi/wbma/tags/" + tag
+    );
+  }
+
+  searchFiles(term: any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      })
+    };
+    return this.http.post<IPic[]>(
+      "http://media.mw.metropolia.fi/wbma/media/search/",
+      term,
+      httpOptions
     );
   }
 

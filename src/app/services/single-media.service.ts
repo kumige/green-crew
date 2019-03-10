@@ -1,23 +1,36 @@
+import { IPic, IDesc } from "./../interfaces/file";
 import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class SingleMediaService {
-  singlePost: {};
+  singlePost: any;
+  previousUrl: string;
 
   profileArray: { username: null };
   profileImage;
   constructor() {}
 
   setPost(postData) {
-    console.log("setPost called");
     this.singlePost = postData;
   }
 
+  setPreviousUrl(url) {
+    this.previousUrl = url;
+  }
+
+  getPreviousUrl() {
+    return this.previousUrl;
+  }
+
   getPost() {
-    console.log("getPost called", this.singlePost);
     return this.singlePost;
+  }
+
+  getDescription(): IDesc {
+    return JSON.parse(this.singlePost.description);
   }
 
   setProfileData(profileArray) {

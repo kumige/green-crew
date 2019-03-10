@@ -5,6 +5,7 @@ import { Component } from "@angular/core";
 import { Observable } from "rxjs";
 import { NavController } from "@ionic/angular";
 import { SingleMediaService } from "../services/single-media.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-tab1",
@@ -18,7 +19,8 @@ export class Tab1Page {
   constructor(
     public mediaProvider: MediaProviderPage,
     public navCtrl: NavController,
-    public singleMediaService: SingleMediaService
+    public singleMediaService: SingleMediaService,
+    public router: Router
   ) {}
 
   ngOnInit() {
@@ -30,6 +32,7 @@ export class Tab1Page {
   }
 
   uploadClick() {
+    this.singleMediaService.setPreviousUrl(this.router.url);
     this.navCtrl.navigateForward("/tabs/upload");
   }
 

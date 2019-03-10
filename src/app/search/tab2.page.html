@@ -1,9 +1,41 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Search
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    (ionChange)="search()"
+  ></ion-searchbar>
 
-<ion-content></ion-content>
+  <ion-list>
+    <ion-card *ngFor="let item of postArray" (click)="showSinglePost(item)">
+      <ion-card-header>
+        <div class="postTitle">
+          <ion-card-title>{{ item.title }}</ion-card-title>
+          <ion-card-subtitle>{{
+            item.user_id | userData | async
+          }}</ion-card-subtitle>
+        </div>
+
+        <ion-icon class="heart-empty" name="heart-empty"></ion-icon>
+      </ion-card-header>
+
+      <ion-card-content>
+        <img
+          class="thumbnail"
+          *ngIf="item.media_type == 'image'"
+          [alt]="item.title"
+          [src]="
+            'http://media.mw.metropolia.fi/wbma/uploads/' +
+            (item.file_id | thumbnail: 'large' | async)
+          "
+        />
+        <img
+          *ngIf="item.media_type == 'video'"
+          [alt]="item.title"
+          [src]="
+            'http://media.mw.metropolia.fi/wbma/uploads/' +
+            (item.file_id | thumbnail: 'screenshot' | async)
+          "
+        />
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>
