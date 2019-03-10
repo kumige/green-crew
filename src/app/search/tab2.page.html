@@ -1,20 +1,9 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Search
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <ion-input
+  <ion-searchbar
     [(ngModel)]="searchTerm"
-    placeholder="Type an ingredient"
-  ></ion-input>
-  <ion-button (click)="search()">
-    <ion-icon name="search"></ion-icon>
-    Search</ion-button
-  >
+    (ionChange)="search()"
+  ></ion-searchbar>
+
   <ion-list>
     <ion-card *ngFor="let item of postArray" (click)="showSinglePost(item)">
       <ion-card-header>

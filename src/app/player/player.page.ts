@@ -44,7 +44,7 @@ export class PlayerPage implements OnInit {
   }
 
   navBack() {
-    this.navCtrl.navigateBack("");
+    this.navCtrl.navigateBack(this.singleMediaService.getPreviousUrl());
   }
 
   getImg() {

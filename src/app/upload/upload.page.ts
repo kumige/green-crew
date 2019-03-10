@@ -10,6 +10,7 @@ import {
   FormArray,
   FormBuilder
 } from "@angular/forms";
+import { SingleMediaService } from "../services/single-media.service";
 
 @Component({
   selector: "app-upload",
@@ -53,7 +54,8 @@ export class UploadPage implements OnInit {
     public loadingCtrl: LoadingController,
     public chooser: Chooser,
     public domSanitizer: DomSanitizer,
-    public formBuilder: FormBuilder
+    public formBuilder: FormBuilder,
+    public singleMediaService: SingleMediaService
   ) {}
 
   ngOnInit() {
@@ -148,6 +150,6 @@ export class UploadPage implements OnInit {
   }
 
   navBack() {
-    this.navCtrl.navigateBack("");
+    this.navCtrl.navigateBack(this.singleMediaService.getPreviousUrl());
   }
 }

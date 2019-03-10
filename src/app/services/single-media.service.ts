@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 })
 export class SingleMediaService {
   singlePost: any;
+  previousUrl: string;
 
   profileArray: { username: null };
   profileImage;
@@ -14,7 +15,14 @@ export class SingleMediaService {
 
   setPost(postData) {
     this.singlePost = postData;
-    console.log(this.singlePost);
+  }
+
+  setPreviousUrl(url) {
+    this.previousUrl = url;
+  }
+
+  getPreviousUrl() {
+    return this.previousUrl;
   }
 
   getPost() {
@@ -22,7 +30,6 @@ export class SingleMediaService {
   }
 
   getDescription(): IDesc {
-    console.log(JSON.parse(this.singlePost.description));
     return JSON.parse(this.singlePost.description);
   }
 
