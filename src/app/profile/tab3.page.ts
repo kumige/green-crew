@@ -32,10 +32,10 @@ export class Tab3Page {
   // Background images
   images = [
     "../../../assets/Gc-Background1.jpg",
-    "../../../assets/Gc-Background2.jpg",
+    //"../../../assets/Gc-Background2.jpg",
     "../../../assets/Gc-Background3.jpg",
     "../../../assets/Gc-Background4.jpg",
-    "../../../assets/Gc-Background5.jpg",
+    //"../../../assets/Gc-Background5.jpg",
     "../../../assets/Gc-Background6.jpg"
   ];
 

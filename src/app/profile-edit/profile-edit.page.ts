@@ -3,8 +3,7 @@ import { MediaProviderPage } from "../media-provider/media-provider.page";
 import { Profile, ProfileEdit, EditResponse } from "../interfaces/user";
 import { NavController } from "@ionic/angular";
 import { SingleMediaService } from "../services/single-media.service";
-import { HttpResponse } from "@angular/common/http";
-
+import { Validators, FormGroup, FormControl } from "@angular/forms";
 @Component({
   selector: "app-profile-edit",
   templateUrl: "./profile-edit.page.html",
@@ -21,6 +20,7 @@ export class ProfileEditPage implements OnInit {
   mediaUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   profileEdit: ProfileEdit = {};
 
+  // on enter gets the data and if data is undefined it navigates back
   ionViewWillEnter() {
     // this.getProfileBackground();
     this.getUserData();
@@ -29,8 +29,19 @@ export class ProfileEditPage implements OnInit {
     }
   }
 
+  // Create the formgroup
+  editForm = new FormGroup({
+    username: new FormControl(
+      "",
+      Validators.compose([Validators.minLength(3)])
+    ),
+    email: new FormControl("", Validators.compose([Validators.email])),
+    password: new FormControl("", Validators.compose([Validators.minLength(5)]))
+  });
+
   ngOnInit() {}
 
+  // Gets the user data (profilepicture, username etc)
   getUserData() {
     this.profileArray = this.singleMediaService.getProfileData();
   }
@@ -46,16 +57,46 @@ export class ProfileEditPage implements OnInit {
 
   navBack() {
     this.navCtrl.navigateBack("tabs/tab3");
+    this.editForm.reset();
   }
 
+  // edits the users info
   editInfo() {
-    this.mediaProvider.editProfile(this.profileEdit).subscribe(
-      (res: EditResponse) => {
-        console.log(res);
-      },
-      error => {
-        console.log(error);
+    if (
+      this.editForm.controls.username.status === "VALID" &&
+      this.editForm.controls.email.status === "VALID" &&
+      this.editForm.controls.password.status === "VALID"
+    ) {
+      this.mediaProvider.editProfile(this.profileEdit).subscribe(
+        (res: EditResponse) => {
+          console.log(res);
+          this.editForm.reset();
+          this.navCtrl.navigateBack("tabs/tab3");
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  // Checks if the username is already in use
+  usernameCheck() {
+    const username = document.getElementById("editUserNameError");
+    if (this.profileEdit.username === "") {
+      this.profileEdit.username = undefined;
+    }
+
+    this.mediaProvider.userCheck(this.profileEdit.username).subscribe(res => {
+      if (
+        !res.available &&
+        this.editForm.controls.username.status !== "INVALID" &&
+        this.profileArray.username !== this.profileEdit.username
+      ) {
+        username.innerHTML = "Username already taken";
+      } else {
+        username.innerHTML = null;
       }
-    );
+    });
   }
 }

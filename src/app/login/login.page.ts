@@ -38,17 +38,20 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
+  // Resets the forms
   resetForms() {
     this.user.username = null;
     this.user.password = null;
     this.registerForm.reset();
   }
 
+  // Switch the template between registering and logging in
   switchTemplate() {
     this.resetForms();
     this.registering = !this.registering;
   }
 
+  // Checks if the both passwords are the same
   passwordCheck() {
     if (this.user.password === this.re_password) {
       return (this.samePassword = true);
@@ -57,6 +60,7 @@ export class LoginPage implements OnInit {
     }
   }
 
+  // Creates register form
   registerForm = new FormGroup({
     username: new FormControl(
       "",
@@ -74,6 +78,7 @@ export class LoginPage implements OnInit {
     )
   });
 
+  // Logs the user in
   login = () => {
     this.mediaProvider.login(this.user).subscribe(
       (res: LoginResponse) => {
@@ -95,6 +100,7 @@ export class LoginPage implements OnInit {
     this.registerForm.reset();
   };
 
+  // Checks if every field is valid before registering the user
   register = () => {
     console.log(this.registerForm.status);
     console.log(this.registerForm);
@@ -124,6 +130,7 @@ export class LoginPage implements OnInit {
     }
   };
 
+  // Registers the user
   registerPost() {
     this.mediaProvider.register(this.user).subscribe(
       (res: RegisterResponse) => {
@@ -136,6 +143,7 @@ export class LoginPage implements OnInit {
     );
   }
 
+  // Presents alert
   async presentAlert(alertMsg: string) {
     const alert = await this.alertController.create({
       message: alertMsg,
@@ -145,11 +153,15 @@ export class LoginPage implements OnInit {
     await alert.present();
   }
 
+  // Checks if the username is already in use
   usernameCheck() {
     const username = document.getElementById("userLabel");
+    if (this.user.username === "") {
+      this.user.username = undefined;
+    }
 
     if (this.registering) {
-      this.mediaProvider.userCheck(this.user).subscribe(res => {
+      this.mediaProvider.userCheck(this.user.username).subscribe(res => {
         if (
           !res.available &&
           this.registerForm.controls.username.status !== "INVALID"

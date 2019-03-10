@@ -144,14 +144,14 @@ export class MediaProviderPage implements OnInit {
     );
   }
 
-  userCheck(user: User) {
+  userCheck(username) {
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json"
       })
     };
     return this.http.get<UserCheck>(
-      "http://media.mw.metropolia.fi/wbma/users/username/" + user.username,
+      "http://media.mw.metropolia.fi/wbma/users/username/" + username,
       httpOptions
     );
   }

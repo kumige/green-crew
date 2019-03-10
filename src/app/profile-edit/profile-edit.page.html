@@ -23,33 +23,62 @@
     <p>Only fill in the fields you'd like to update</p>
   </div>
 
-  <form class="form">
-    <ion-item class="username">
-      <ion-label id="userField" position="floating">New username</ion-label>
+  <form class="form" [formGroup]="editForm">
+    <ion-item class="editUsername">
+      <ion-label position="floating">New username</ion-label>
       <ion-input
         type="text"
-        name="Username"
         [(ngModel)]="profileEdit.username"
+        (ionBlur)="usernameCheck()"
+        name="Username"
+        formControlName="username"
       ></ion-input>
     </ion-item>
+    <div class="validation-errors">
+      <div
+        class="error-message"
+        *ngIf="editForm.controls.username.status === 'INVALID'"
+      >
+        Username must be at least 3 characters long.
+      </div>
+      <div id="editUserNameError" class="error-message"></div>
+    </div>
 
     <ion-item>
       <ion-label position="floating">New email</ion-label>
       <ion-input
         type="text"
-        name="email"
         [(ngModel)]="profileEdit.email"
+        name="Email"
+        formControlName="email"
       ></ion-input>
     </ion-item>
+    <div class="validation-errors">
+      <div
+        class="error-message"
+        *ngIf="editForm.controls.email.status === 'INVALID'"
+      >
+        Please enter a valid email.
+      </div>
+    </div>
 
     <ion-item>
       <ion-label position="floating">New password</ion-label>
       <ion-input
         type="password"
-        name="password"
         [(ngModel)]="profileEdit.password"
+        name="Password"
+        formControlName="password"
       ></ion-input>
     </ion-item>
+    <div class="validation-errors">
+      <div
+        class="error-message"
+        *ngIf="editForm.controls.password.status === 'INVALID'"
+      >
+        Password must be at least 5 characters long.
+      </div>
+    </div>
   </form>
 
   <div class="centerer">
