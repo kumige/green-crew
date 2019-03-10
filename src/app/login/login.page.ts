@@ -93,7 +93,7 @@ export class LoginPage implements OnInit {
       },
       error => {
         console.log(error);
-        this.presentAlert("Username or password is incorrect");
+        this.presentAlert("Invalid password or username");
       }
     );
     this.registering = false;

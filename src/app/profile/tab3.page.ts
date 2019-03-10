@@ -1,6 +1,10 @@
 import { Component } from "@angular/core";
 import { MediaProviderPage } from "../media-provider/media-provider.page";
-import { NavController, PopoverController } from "@ionic/angular";
+import {
+  NavController,
+  PopoverController,
+  AlertController
+} from "@ionic/angular";
 import { Profile } from "../interfaces/user";
 import { IPic } from "./../interfaces/file";
 import { Observable } from "rxjs";
@@ -17,7 +21,8 @@ export class Tab3Page {
     public mediaProvider: MediaProviderPage,
     public navCtrl: NavController,
     public popoverController: PopoverController,
-    public singleMediaService: SingleMediaService
+    public singleMediaService: SingleMediaService,
+    public alertController: AlertController
   ) {}
 
   profileArray: Profile = { username: null };
@@ -28,6 +33,7 @@ export class Tab3Page {
   favourites: boolean = false;
   buttonColor: string;
   buttonColor2: string = "#E9E9E9";
+  profileUpdated: Boolean = false;
 
   // Background images
   images = [
@@ -44,6 +50,7 @@ export class Tab3Page {
     this.allFiles = [];
     this.getUserData();
     this.profilesUploads();
+    this.profileUpdatedAlert();
   }
 
   // Gets the users data (profile picture, username etc.) and the users uploaded posts
@@ -131,6 +138,24 @@ export class Tab3Page {
       this.buttonColor = "#E9E9E9";
       this.buttonColor2 = "#f4f4f4";
       this.favourites = true;
+    }
+  }
+
+  // Presents alert
+  async presentAlert(alertMsg: string) {
+    const alert = await this.alertController.create({
+      message: alertMsg,
+      buttons: ["OK"]
+    });
+
+    await alert.present();
+  }
+
+  // Alerts the user if the profile info was updated successfully
+  profileUpdatedAlert() {
+    if (this.singleMediaService.getProfileUpdated()) {
+      this.presentAlert("Profile was edited successfully");
+      this.singleMediaService.setProfileUpdated(this.profileUpdated);
     }
   }
 }
