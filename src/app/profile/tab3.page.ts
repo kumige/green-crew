@@ -34,7 +34,6 @@ export class Tab3Page {
   buttonColor: string;
   buttonColor2: string = "#E9E9E9";
   profileUpdated: Boolean = false;
-  //favouritedPost: Boolean = false;
   allFavouritedPosts: any = [];
   arrayOfFavourites: any = [];
 
@@ -69,14 +68,15 @@ export class Tab3Page {
   // Gets the users data (profile picture, username etc.) and the users uploaded posts
   getUserData() {
     this.reset();
+
     //Gets the profile picture and username
     this.mediaProvider.getProfileData().subscribe(res => {
       this.profileArray = res;
 
       this.mediaProvider.getProfilePic("profile").subscribe((res2: any[]) => {
-        res2.forEach(element => {
-          if (element.user_id === this.profileArray.user_id) {
-            let newUrl = this.mediaUrl + element.filename;
+        res2.forEach(picture => {
+          if (picture.user_id === this.profileArray.user_id) {
+            let newUrl = this.mediaUrl + picture.filename;
             this.profileArray.filename = newUrl;
           }
         });
@@ -166,7 +166,7 @@ export class Tab3Page {
     if (!this.favouritesTab) {
       this.buttonColor = "#E9E9E9";
       this.buttonColor2 = "#f4f4f4";
-      this.getUserData();
+      this.getFavoritedMedia();
       this.favouritesTab = true;
     }
   }
@@ -205,6 +205,31 @@ export class Tab3Page {
     item.favourited = false;
     this.mediaProvider.deleteFavourite(item.file_id).subscribe(res => {
       console.log(res);
+    });
+  }
+
+  getFavoritedMedia() {
+    // Gets all the media
+    let arrayOfMedia: any;
+    arrayOfMedia = this.mediaProvider.getFilesByTag("gc");
+    arrayOfMedia.forEach(mediaArray => {
+      mediaArray.forEach(media => {
+        // Gets the posts that are favourited
+        this.mediaProvider.getFavourites().subscribe(res => {
+          this.arrayOfFavourites = res;
+          //console.log(this.arrayOfFavourites);
+
+          // Changed the icon for all the posts that are favourited
+          this.arrayOfFavourites.forEach(favourited => {
+            //console.log(favourited);
+            if (favourited.file_id === media.file_id) {
+              media.favourited = true;
+              console.log(media);
+              this.arrayOfFavourites.push(media);
+            }
+          });
+        });
+      });
     });
   }
 }

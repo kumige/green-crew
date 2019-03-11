@@ -14,7 +14,7 @@
 <ion-content>
   <ion-list>
     <ion-card
-      *ngFor="let item of (picArray | async)"
+      *ngFor="let item of mediaFilesArray"
       (click)="showSinglePost(item)"
     >
       <ion-card-header>
@@ -25,7 +25,20 @@
           }}</ion-card-subtitle>
         </div>
 
-        <ion-icon class="heart-empty" name="heart-empty"></ion-icon>
+        <button *ngIf="!item.favourited">
+          <ion-icon
+            (click)="favouritePost(item)"
+            class="heart-empty"
+            name="heart-empty"
+          ></ion-icon>
+        </button>
+        <button *ngIf="item.favourited">
+          <ion-icon
+            (click)="unFavouritePost(item)"
+            class="heart-empty"
+            name="heart"
+          ></ion-icon>
+        </button>
       </ion-card-header>
 
       <ion-card-content>
