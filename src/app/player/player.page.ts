@@ -109,7 +109,7 @@ export class PlayerPage implements OnInit {
           cssClass: "secondary"
         },
         {
-          text: "Yes",
+          text: "Delete",
           handler: () => {
             this.mediaProvider
               .deletePost(this.postData.file_id)
