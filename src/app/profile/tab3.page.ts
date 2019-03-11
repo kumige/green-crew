@@ -36,6 +36,7 @@ export class Tab3Page {
   profileUpdated: Boolean = false;
   allFavouritedPosts: any = [];
   arrayOfFavourites: any = [];
+  arrayOfMedia: Observable<IPic[]>;
 
   // Background images
   images = [
@@ -85,7 +86,7 @@ export class Tab3Page {
       this.singleMediaService.setProfileData(this.profileArray);
       this.singleMediaService.setProfileBackground(this.randomPicture);
 
-      // Gets the users uploaded posts
+      // Gets the users uploaded posts ( with forEach we get the information we need )
       this.uploadsArray = this.mediaProvider.getFilesByTag("gc");
 
       this.uploadsArray.forEach(element => {
@@ -99,20 +100,16 @@ export class Tab3Page {
               return b.file_id - a.file_id;
             });
 
-            // Gets the posts that are favourited
+            // Changes the icon for all the posts that are favourited
             this.mediaProvider.getFavourites().subscribe(res => {
               this.allFavouritedPosts = res;
               //console.log(this.allFavouritedPosts);
               this.allFavouritedPosts.forEach(favourited => {
-                //console.log(favourited);
-
                 if (favourited.file_id === media.file_id) {
                   media.favourited = true;
-                  this.arrayOfFavourites.push(media);
                 }
               });
             });
-
             //console.log(this.allFiles);
           }
         });
@@ -208,24 +205,28 @@ export class Tab3Page {
     });
   }
 
+  // Gets all the posts that the user has favourited
   getFavoritedMedia() {
-    // Gets all the media
-    let arrayOfMedia: any;
-    arrayOfMedia = this.mediaProvider.getFilesByTag("gc");
-    arrayOfMedia.forEach(mediaArray => {
-      mediaArray.forEach(media => {
+    let favorites: any = [];
+
+    // Gets all the media ( with forEach we get the information we need )
+    this.arrayOfMedia = this.mediaProvider.getFilesByTag("gc");
+    this.arrayOfMedia.forEach(media => {
+      media.forEach(mediaDetails => {
         // Gets the posts that are favourited
         this.mediaProvider.getFavourites().subscribe(res => {
-          this.arrayOfFavourites = res;
-          //console.log(this.arrayOfFavourites);
+          favorites = res;
 
           // Changed the icon for all the posts that are favourited
-          this.arrayOfFavourites.forEach(favourited => {
-            //console.log(favourited);
-            if (favourited.file_id === media.file_id) {
-              media.favourited = true;
-              console.log(media);
-              this.arrayOfFavourites.push(media);
+          favorites.forEach(favourited => {
+            if (favourited.file_id === mediaDetails.file_id) {
+              // console.log(favourited);
+              mediaDetails.favourited = true;
+              // console.log(mediaDetails);
+              this.arrayOfFavourites.push(mediaDetails);
+              this.arrayOfFavourites.sort(function(a, b) {
+                return b.file_id - a.file_id;
+              });
             }
           });
         });
