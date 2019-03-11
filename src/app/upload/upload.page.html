@@ -6,7 +6,7 @@
         name="arrow-round-back"
         (click)="navBack()"
       ></ion-icon>
-      <ion-title>Upload files</ion-title>
+      <ion-title>Recipe maker</ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
@@ -15,7 +15,7 @@
   <h2 class="uploadCenterer">Post a recipe!</h2>
   <form [formGroup]="uploadForm">
     <ion-item>
-      <ion-label position="floating">Food Title</ion-label>
+      <ion-label position="floating">Recipe Title</ion-label>
       <ion-input
         type="text"
         [(ngModel)]="this.fileTitle"

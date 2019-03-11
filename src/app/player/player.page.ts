@@ -18,6 +18,7 @@ import {
 export class PlayerPage implements OnInit {
   postData;
   description: IDesc;
+  ownPost = false;
   picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   user;
   thumbnail: string;
@@ -40,9 +41,6 @@ export class PlayerPage implements OnInit {
     this.commentForm = new FormGroup({
       comment: new FormControl("", Validators.minLength(3))
     });
-    this.mediaProvider.getProfileData().subscribe(res => {
-      this.user = res;
-    });
   }
 
   //Load content
@@ -50,11 +48,22 @@ export class PlayerPage implements OnInit {
     this.getPost();
     this.getProfilePic();
     this.getComments();
+
+    this.mediaProvider.getProfileData().subscribe(res => {
+      this.user = res;
+      if (this.postData.user_id === res.user_id) {
+        this.ownPost = true;
+      }
+    });
   }
 
-  //Clear comments from memory
+  //Clear data from memory
   ionViewWillLeave() {
     this.commentArray.length = 0;
+    this.videoContent = false;
+    this.audioContent = false;
+    this.imageContent = false;
+    this.ownPost = false;
   }
 
   getPost() {
@@ -84,6 +93,35 @@ export class PlayerPage implements OnInit {
 
         break;
     }
+  }
+
+  deletePost() {
+    this.deletePostAlert("Are you sure you want to delete this post?");
+  }
+
+  async deletePostAlert(alertMsg: string) {
+    const alert = await this.alertCtrl.create({
+      message: alertMsg,
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          cssClass: "secondary"
+        },
+        {
+          text: "Yes",
+          handler: () => {
+            this.mediaProvider
+              .deletePost(this.postData.file_id)
+              .subscribe(res => {
+                this.navCtrl.navigateBack("");
+              });
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   getComments() {

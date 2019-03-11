@@ -45,6 +45,18 @@ export class MediaProviderPage implements OnInit {
     );
   }
 
+  deletePost(id) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "x-access-token": localStorage.getItem("token")
+      })
+    };
+    return this.http.delete(
+      "http://media.mw.metropolia.fi/wbma/media/" + id,
+      httpOptions
+    );
+  }
+
   getComments(id) {
     return this.http.get<IComment[]>(
       "http://media.mw.metropolia.fi/wbma/comments/file/" + id

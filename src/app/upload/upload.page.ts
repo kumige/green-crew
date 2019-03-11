@@ -28,25 +28,6 @@ export class UploadPage implements OnInit {
   fileData: string;
   file: File;
   fileBlob: Blob;
-  brightness = 100;
-  contrast = 100;
-  saturation = 100;
-  sepia = 0;
-
-  /* ingredient row template
-  `
-    <ion-item>
-      <ion-row>
-        <ion-col size="9">
-          <ion-input class="ingredient" type="text"></ion-input>
-        </ion-col>
-        <ion-col size="3">
-          <ion-input class="amount" type="text"></ion-input>
-        </ion-col>
-      </ion-row>
-    </ion-item>
-  `
-  */
 
   constructor(
     public navCtrl: NavController,
@@ -61,20 +42,22 @@ export class UploadPage implements OnInit {
   ngOnInit() {
     this.uploadForm = this.formBuilder.group({
       name: ["", Validators.required],
-      ingredient: this.formBuilder.array([this.createIngredient()]),
+      ingredient: this.formBuilder.array(
+        [this.createIngredient()],
+        Validators.required
+      ),
       instructions: ["", Validators.required]
     });
   }
 
   createIngredient() {
     return this.formBuilder.group({
-      name: [""],
-      amount: [""]
+      name: ["", Validators.required],
+      amount: ["", Validators.required]
     });
   }
 
   addIngredientField() {
-    console.log(this.uploadForm.valid);
     this.ingredient = this.uploadForm.get("ingredient") as FormArray;
     this.ingredient.push(this.createIngredient());
   }
@@ -105,15 +88,6 @@ export class UploadPage implements OnInit {
     reader.readAsDataURL(this.fileBlob);
   }
 
-  getFilters() {
-    let filters = {
-      filter: `brightness(${this.brightness * 0.01}) contrast(${this.contrast *
-        0.01}) saturate(${this.saturation * 0.01}) sepia(${this.sepia * 0.01})`
-    };
-
-    return filters;
-  }
-
   resetForm() {
     this.fileTitle = "";
     this.fileDesc = "";
@@ -124,19 +98,26 @@ export class UploadPage implements OnInit {
   }
 
   upload() {
-    //const spinner = this.loadingCtrl.create();
-    //spinner.present();
     const fd = new FormData();
     fd.append("file", this.fileBlob);
     fd.append("title", this.fileTitle);
     fd.append("description", JSON.stringify(this.uploadForm.value));
     this.mediaProvider.upload(fd).subscribe((res: any) => {
       this.addFilterTag(res.file_id);
+      this.createSpinner();
       setTimeout(() => {
         this.navCtrl.navigateBack("");
-        //spinner.dismiss();
       }, 2000);
     });
+  }
+
+  async createSpinner() {
+    const loadingElement = await this.loadingCtrl.create({
+      message: "Please wait...",
+      spinner: "crescent",
+      duration: 2000
+    });
+    return await loadingElement.present();
   }
 
   addFilterTag(fileId) {

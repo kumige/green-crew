@@ -6,7 +6,12 @@
         name="arrow-round-back"
         (click)="navBack()"
       ></ion-icon>
-      <ion-title>player</ion-title>
+      <ion-icon
+        *ngIf="ownPost"
+        class="trash"
+        name="trash"
+        (click)="deletePost()"
+      ></ion-icon>
     </div>
   </ion-toolbar>
 </ion-header>
