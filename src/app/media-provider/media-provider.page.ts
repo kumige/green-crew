@@ -238,4 +238,41 @@ export class MediaProviderPage implements OnInit {
       httpOptions
     );
   }
+
+  getFavourites() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "x-access-token": localStorage.getItem("token")
+      })
+    };
+    return this.http.get(
+      "http://media.mw.metropolia.fi/wbma/favourites",
+      httpOptions
+    );
+  }
+
+  favouriteMedia(file_id) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "x-access-token": localStorage.getItem("token")
+      })
+    };
+    return this.http.post(
+      "http://media.mw.metropolia.fi/wbma/favourites",
+      file_id,
+      httpOptions
+    );
+  }
+
+  deleteFavourite(file_id) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "x-access-token": localStorage.getItem("token")
+      })
+    };
+    return this.http.delete(
+      "http://media.mw.metropolia.fi/wbma/favourites/file/" + file_id,
+      httpOptions
+    );
+  }
 }

@@ -10,6 +10,7 @@ export interface IPic {
   time_added: string;
   screenshot?: string;
   thumbnails?: IThumbnail;
+  favourited?: Boolean;
 }
 
 export interface IThumbnail {

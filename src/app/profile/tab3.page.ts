@@ -30,10 +30,13 @@ export class Tab3Page {
   uploadsArray: Observable<IPic[]>;
   allFiles: any = [];
   randomPicture: string;
-  favourites: boolean = false;
+  favouritesTab: boolean = false;
   buttonColor: string;
   buttonColor2: string = "#E9E9E9";
   profileUpdated: Boolean = false;
+  //favouritedPost: Boolean = false;
+  allFavouritedPosts: any = [];
+  arrayOfFavourites: any = [];
 
   // Background images
   images = [
@@ -46,15 +49,26 @@ export class Tab3Page {
   ];
 
   ionViewWillEnter() {
+    this.buttonColor = "#f4f4f4";
+    this.buttonColor2 = "#E9E9E9";
+    this.favouritesTab = false;
+    this.getUserData();
     this.randomImage();
     this.allFiles = [];
-    this.getUserData();
-    this.profilesUploads();
     this.profileUpdatedAlert();
+  }
+
+  reset() {
+    this.allFiles = [];
+    this.allFavouritedPosts = [];
+    this.arrayOfFavourites = [];
+    this.uploadsArray = null;
+    this.profileArray = { username: null };
   }
 
   // Gets the users data (profile picture, username etc.) and the users uploaded posts
   getUserData() {
+    this.reset();
     //Gets the profile picture and username
     this.mediaProvider.getProfileData().subscribe(res => {
       this.profileArray = res;
@@ -75,17 +89,31 @@ export class Tab3Page {
       this.uploadsArray = this.mediaProvider.getFilesByTag("gc");
 
       this.uploadsArray.forEach(element => {
-        element.forEach(element2 => {
-          if (element2.user_id === this.profileArray.user_id) {
+        element.forEach(media => {
+          if (media.user_id === this.profileArray.user_id) {
             //console.log(element2);
-            this.allFiles.push(element2);
+            this.allFiles.push(media);
 
             // Sorts the file by the file_id (gets the newest picture on top)
             this.allFiles.sort(function(a, b) {
               return b.file_id - a.file_id;
             });
 
-            console.log(this.allFiles);
+            // Gets the posts that are favourited
+            this.mediaProvider.getFavourites().subscribe(res => {
+              this.allFavouritedPosts = res;
+              //console.log(this.allFavouritedPosts);
+              this.allFavouritedPosts.forEach(favourited => {
+                //console.log(favourited);
+
+                if (favourited.file_id === media.file_id) {
+                  media.favourited = true;
+                  this.arrayOfFavourites.push(media);
+                }
+              });
+            });
+
+            //console.log(this.allFiles);
           }
         });
       });
@@ -127,17 +155,19 @@ export class Tab3Page {
 
   // Changes the buttons colors and status (which posts to show)
   profilesUploads() {
-    if (this.favourites) {
+    if (this.favouritesTab) {
       this.buttonColor = "#f4f4f4";
       this.buttonColor2 = "#E9E9E9";
-      this.favourites = false;
+      this.getUserData();
+      this.favouritesTab = false;
     }
   }
-  favouritesUploads() {
-    if (!this.favourites) {
+  profilesFavourites() {
+    if (!this.favouritesTab) {
       this.buttonColor = "#E9E9E9";
       this.buttonColor2 = "#f4f4f4";
-      this.favourites = true;
+      this.getUserData();
+      this.favouritesTab = true;
     }
   }
 
@@ -157,5 +187,24 @@ export class Tab3Page {
       this.presentAlert("Profile was edited successfully");
       this.singleMediaService.setProfileUpdated(this.profileUpdated);
     }
+  }
+
+  // Favourites a post
+  favouritePost(item) {
+    const file = {
+      file_id: item.file_id
+    };
+    item.favourited = true;
+    this.mediaProvider.favouriteMedia(file).subscribe(res => {
+      console.log(res);
+    });
+  }
+
+  // Unfavourites a post
+  unFavouritePost(item) {
+    item.favourited = false;
+    this.mediaProvider.deleteFavourite(item.file_id).subscribe(res => {
+      console.log(res);
+    });
   }
 }

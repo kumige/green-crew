@@ -15,10 +15,11 @@
   <img class="background" src="../../assets/Gc-Settings.jpeg" />
 
   <div class="editPfp">
-    <ion-avatar class="profilePicture" icon-left
-      ><img src="{{ profileArray.filename }}" />
+    <ion-avatar class="profilePicture">
+      <img *ngIf="!pfpChanged" src="{{ profileArray.filename }}" />
+      <img *ngIf="pfpChanged" [src]="this.fileData" />
+      <ion-icon id="pfpChange" name="camera" (click)="chooseFile()"></ion-icon>
     </ion-avatar>
-    <ion-icon name="camera"></ion-icon>
   </div>
 
   <div class="infoMessage">
@@ -105,7 +106,7 @@
       class="buttons"
       (click)="passwordCheck()"
       (click)="editInfo()"
-      >Update</ion-button
+      >Edit</ion-button
     >
   </div>
 </ion-content>
