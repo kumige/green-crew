@@ -18,7 +18,7 @@
     <ion-avatar class="profilePicture">
       <img *ngIf="!pfpChanged" src="{{ profileArray.filename }}" />
       <img *ngIf="pfpChanged" [src]="this.fileData" />
-      <ion-icon id="pfpChange" name="camera" (click)="chooseFile()"></ion-icon>
+      <ion-icon id="pfpChange" name="create" (click)="chooseFile()"></ion-icon>
     </ion-avatar>
   </div>
 

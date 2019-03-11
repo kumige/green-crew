@@ -99,7 +99,10 @@
   </ion-list>
 
   <ion-list *ngIf="favouritesTab">
-    <ion-card *ngFor="let item of arrayOfFavourites">
+    <ion-card
+      *ngFor="let item of arrayOfFavourites"
+      (click)="showSinglePost(item)"
+    >
       <ion-card-header>
         <div class="postTitle">
           <ion-card-title>{{ item.title }}</ion-card-title>

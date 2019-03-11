@@ -4,9 +4,6 @@
       <ion-title>
         Home
       </ion-title>
-      <ion-button *ngIf="this.mediaProvider.loggedIn" (click)="uploadClick()"
-        >upload</ion-button
-      >
     </div>
   </ion-toolbar>
 </ion-header>
@@ -65,4 +62,9 @@
       </ion-card-content>
     </ion-card>
   </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button *ngIf="this.mediaProvider.loggedIn" (click)="uploadClick()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
