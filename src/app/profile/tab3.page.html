@@ -50,51 +50,55 @@
   </div>
 
   <ion-list *ngIf="!favouritesTab">
-    <ion-card *ngFor="let item of allFiles">
+    <ion-card *ngFor="let item of allFiles" (click)="showSinglePost(item)">
       <ion-card-header>
         <div class="postTitle">
           <ion-card-title>{{ item.title }}</ion-card-title>
           <ion-card-subtitle>{{ profileArray.username }}</ion-card-subtitle>
         </div>
 
-        <ion-icon
-          *ngIf="!item.favourited"
-          (click)="favouritePost(item)"
-          class="heart-empty"
-          name="heart-empty"
-        ></ion-icon>
-        <ion-icon
-          *ngIf="item.favourited"
-          (click)="unFavouritePost(item)"
-          class="heart-empty"
-          name="heart"
-        ></ion-icon>
+        <button *ngIf="!item.favourited">
+          <ion-icon
+            (click)="favouritePost(item)"
+            class="heart-empty"
+            name="heart-empty"
+          ></ion-icon>
+        </button>
+        <button *ngIf="item.favourited">
+          <ion-icon
+            (click)="unFavouritePost(item)"
+            class="heart-empty"
+            name="heart"
+          ></ion-icon>
+        </button>
       </ion-card-header>
 
       <ion-card-content>
-        <img
-          class="thumbnail"
-          *ngIf="item.media_type == 'image'"
-          [alt]="item.title"
-          [src]="
-            'http://media.mw.metropolia.fi/wbma/uploads/' +
-            (item.file_id | thumbnail: 'large' | async)
-          "
-        />
-        <img
-          *ngIf="item.media_type == 'video'"
-          [alt]="item.title"
-          [src]="
-            'http://media.mw.metropolia.fi/wbma/uploads/' +
-            (item.file_id | thumbnail: 'screenshot' | async)
-          "
-        />
+        <div class="image-container">
+          <img
+            class="thumbnail"
+            *ngIf="item.media_type == 'image'"
+            [alt]="item.title"
+            [src]="
+              'http://media.mw.metropolia.fi/wbma/uploads/' +
+              (item.file_id | thumbnail: 'large' | async)
+            "
+          />
+          <img
+            *ngIf="item.media_type == 'video'"
+            [alt]="item.title"
+            [src]="
+              'http://media.mw.metropolia.fi/wbma/uploads/' +
+              (item.file_id | thumbnail: 'screenshot' | async)
+            "
+          />
+        </div>
       </ion-card-content>
     </ion-card>
   </ion-list>
 
   <ion-list *ngIf="favouritesTab">
-    <ion-card *ngFor="let item of arrayOfFavourites">
+    <ion-card *ngFor="let item2 of arrayOfFavourites">
       <ion-card-header>
         <div class="postTitle">
           <ion-card-title>{{ item.title }}</ion-card-title>
@@ -102,37 +106,39 @@
         </div>
 
         <ion-icon
-          *ngIf="!item.favourited"
-          (click)="favouritePost(item)"
+          *ngIf="!item2.favourited"
+          (click)="favouritePost(item2)"
           class="heart-empty"
           name="heart-empty"
         ></ion-icon>
         <ion-icon
-          *ngIf="item.favourited"
-          (click)="unFavouritePost(item)"
+          *ngIf="item2.favourited"
+          (click)="unFavouritePost(item2)"
           class="heart-empty"
           name="heart"
         ></ion-icon>
       </ion-card-header>
 
       <ion-card-content>
-        <img
-          class="thumbnail"
-          *ngIf="item.media_type == 'image'"
-          [alt]="item.title"
-          [src]="
-            'http://media.mw.metropolia.fi/wbma/uploads/' +
-            (item.file_id | thumbnail: 'large' | async)
-          "
-        />
-        <img
-          *ngIf="item.media_type == 'video'"
-          [alt]="item.title"
-          [src]="
-            'http://media.mw.metropolia.fi/wbma/uploads/' +
-            (item.file_id | thumbnail: 'screenshot' | async)
-          "
-        />
+        <div class="image-container">
+          <img
+            class="thumbnail"
+            *ngIf="item2.media_type == 'image'"
+            [alt]="item2.title"
+            [src]="
+              'http://media.mw.metropolia.fi/wbma/uploads/' +
+              (item2.file_id | thumbnail: 'large' | async)
+            "
+          />
+          <img
+            *ngIf="item2.media_type == 'video'"
+            [alt]="item2.title"
+            [src]="
+              'http://media.mw.metropolia.fi/wbma/uploads/' +
+              (item2.file_id | thumbnail: 'screenshot' | async)
+            "
+          />
+        </div>
       </ion-card-content>
     </ion-card>
   </ion-list>

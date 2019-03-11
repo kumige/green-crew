@@ -15,6 +15,8 @@ import { Router } from "@angular/router";
 export class Tab1Page {
   picArray: Observable<IPic[]>;
   nameArray: Observable<[]>;
+  mediaFilesArray: any[];
+  favouritedPostsArray: any = [];
 
   constructor(
     public mediaProvider: MediaProviderPage,
@@ -30,7 +32,31 @@ export class Tab1Page {
   }
 
   getFiles() {
+    // Gets all the media
     this.picArray = this.mediaProvider.getFilesByTag("gc");
+    this.picArray.forEach(media => {
+      this.mediaFilesArray = media;
+
+      // Sorts the posts by the file_id
+      this.mediaFilesArray.sort(function(a, b) {
+        return b.file_id - a.file_id;
+      });
+
+      media.forEach(mediaDetails => {
+        // Gets the posts that are favourited
+        this.mediaProvider.getFavourites().subscribe(res => {
+          this.favouritedPostsArray = res;
+
+          // Changed the icon for all the posts that are favourited
+          this.favouritedPostsArray.forEach(favourited => {
+            if (favourited.file_id === mediaDetails.file_id) {
+              mediaDetails.favourited = true;
+              this.favouritedPostsArray.push(media);
+            }
+          });
+        });
+      });
+    });
   }
 
   uploadClick() {
@@ -41,5 +67,24 @@ export class Tab1Page {
   showSinglePost(item) {
     this.singleMediaService.setPost(item);
     this.navCtrl.navigateForward("/tabs/player");
+  }
+
+  // Favourites a post
+  favouritePost(item) {
+    const file = {
+      file_id: item.file_id
+    };
+    item.favourited = true;
+    this.mediaProvider.favouriteMedia(file).subscribe(res => {
+      console.log(res);
+    });
+  }
+
+  // Unfavourites a post
+  unFavouritePost(item) {
+    item.favourited = false;
+    this.mediaProvider.deleteFavourite(item.file_id).subscribe(res => {
+      console.log(res);
+    });
   }
 }
