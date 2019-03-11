@@ -17,13 +17,14 @@
 .editPfp {
   ion-icon {
     position: absolute;
-    top: 30%;
-    left: 220px;
     background-color: white;
     border-radius: 30%;
     border: 2px solid $gc-secondary;
     color: $gc-secondary;
     font-size: 30px;
+    .activated {
+      color: $gc-primary;
+    }
   }
 }
 

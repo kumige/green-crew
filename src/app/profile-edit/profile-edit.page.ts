@@ -4,6 +4,7 @@ import { Profile, ProfileEdit, EditResponse } from "../interfaces/user";
 import { NavController, AlertController } from "@ionic/angular";
 import { SingleMediaService } from "../services/single-media.service";
 import { Validators, FormGroup, FormControl } from "@angular/forms";
+import { Chooser } from "@ionic-native/chooser/ngx";
 
 @Component({
   selector: "app-profile-edit",
@@ -15,8 +16,10 @@ export class ProfileEditPage implements OnInit {
     public mediaProvider: MediaProviderPage,
     public navCtrl: NavController,
     public singleMediaService: SingleMediaService,
-    public alertController: AlertController
+    public alertController: AlertController,
+    public chooser: Chooser
   ) {}
+
   profileArray: Profile = { username: null };
   //backgroundImage: string;
   mediaUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
@@ -24,10 +27,14 @@ export class ProfileEditPage implements OnInit {
   profileUpdated: Boolean = false;
   samePassword: Boolean = true;
   re_password: string;
+  fileBlob: Blob;
+  pfpChanged: Boolean = false;
+  fileData: string;
 
   // on enter gets the data and if data is undefined it navigates back
   ionViewWillEnter() {
     // this.getProfileBackground();
+    this.usernameCheck();
     this.getUserData();
     if (this.profileArray == undefined) {
       this.navCtrl.navigateBack("tabs/tab3");
@@ -67,8 +74,14 @@ export class ProfileEditPage implements OnInit {
   // Navigates back to profile page and resets the form
   navBack() {
     this.navCtrl.navigateBack("tabs/tab3");
-    this.editForm.reset();
+    this.formReset();
     document.getElementById("editUserNameError").innerHTML = null;
+  }
+
+  formReset() {
+    this.pfpChanged = false;
+    this.fileBlob = null;
+    this.editForm.reset();
   }
 
   // edits the users info and if new password has been inserted, checks if the passwords match
@@ -79,18 +92,37 @@ export class ProfileEditPage implements OnInit {
       this.editForm.controls.password.status === "VALID"
     ) {
       if (this.samePassword === true) {
-        this.mediaProvider.editProfile(this.profileEdit).subscribe(
-          (res: EditResponse) => {
-            console.log(res);
-            this.profileUpdated = true;
-            this.singleMediaService.setProfileUpdated(this.profileUpdated);
-            this.editForm.reset();
+        if (this.pfpChanged === false) {
+          this.mediaProvider.editProfile(this.profileEdit).subscribe(
+            (res: EditResponse) => {
+              console.log(res);
+              this.profileUpdated = true;
+              this.singleMediaService.setProfileUpdated(this.profileUpdated);
+              this.formReset();
+              this.navCtrl.navigateBack("tabs/tab3");
+            },
+            error => {
+              console.log(error);
+            }
+          );
+        }
+        if (this.pfpChanged === true) {
+          this.mediaProvider.editProfile(this.profileEdit).subscribe(
+            (res: EditResponse) => {
+              console.log(res);
+            },
+            error => {
+              console.log(error);
+            }
+          );
+          this.changePfp();
+          this.profileUpdated = true;
+          this.singleMediaService.setProfileUpdated(this.profileUpdated);
+          setTimeout(() => {
+            this.formReset();
             this.navCtrl.navigateBack("tabs/tab3");
-          },
-          error => {
-            console.log(error);
-          }
-        );
+          }, 1000);
+        }
       } else {
         this.presentAlert("Passwords do not match");
       }
@@ -119,8 +151,6 @@ export class ProfileEditPage implements OnInit {
 
   // Checks if the passwords match
   passwordCheck() {
-    //console.log(this.profileEdit.password);
-    //console.log(this.re_password);
     if (this.profileEdit.password === "") {
       this.profileEdit.password = undefined;
     }
@@ -128,10 +158,8 @@ export class ProfileEditPage implements OnInit {
       this.re_password = undefined;
     }
     if (this.profileEdit.password === this.re_password) {
-      console.log("same");
       return (this.samePassword = true);
     } else {
-      console.log("not same");
       return (this.samePassword = false);
     }
   }
@@ -144,5 +172,54 @@ export class ProfileEditPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  // Adds "profile" tag for the new profilepicture
+  addFilterTag(fileId) {
+    const tag = {
+      file_id: fileId,
+      tag: "profile"
+    };
+    this.mediaProvider.addTag(tag).subscribe(res => {
+      console.log("tagChange");
+      console.log(res);
+    });
+  }
+
+  // Chooses a file for new profilepicture
+  chooseFile() {
+    this.chooser
+      .getFile("image/*,video/mp4")
+      .then(file => {
+        if (file) {
+          console.log(file);
+          this.fileBlob = new Blob([file.data], { type: file.mediaType });
+          this.pfpChanged = true;
+          this.showPreview();
+        }
+      })
+      .catch((error: any) => console.error(error));
+  }
+
+  // Changes the profilepicture
+  changePfp() {
+    const fd = new FormData();
+    fd.append("file", this.fileBlob);
+    fd.append("title", "pfp");
+    this.mediaProvider.upload(fd).subscribe((res: any) => {
+      console.log("upload res");
+      console.log(res);
+      this.addFilterTag(res.file_id);
+    });
+  }
+
+  // Show preview of the new profile picture
+  showPreview() {
+    const reader = new FileReader();
+    reader.onloadend = evt => {
+      this.fileData = reader.result.toString();
+    };
+
+    reader.readAsDataURL(this.fileBlob);
   }
 }
