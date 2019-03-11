@@ -28,14 +28,14 @@
         <button *ngIf="!item.favourited">
           <ion-icon
             (click)="favouritePost(item)"
-            class="heart-empty"
+            class="heart"
             name="heart-empty"
           ></ion-icon>
         </button>
         <button *ngIf="item.favourited">
           <ion-icon
             (click)="unFavouritePost(item)"
-            class="heart-empty"
+            class="heart"
             name="heart"
           ></ion-icon>
         </button>

@@ -47,11 +47,10 @@ export class Tab1Page {
         this.mediaProvider.getFavourites().subscribe(res => {
           this.favouritedPostsArray = res;
 
-          // Changed the icon for all the posts that are favourited
+          // Changes the icon for all the posts that are favourited
           this.favouritedPostsArray.forEach(favourited => {
             if (favourited.file_id === mediaDetails.file_id) {
               mediaDetails.favourited = true;
-              this.favouritedPostsArray.push(media);
             }
           });
         });
@@ -71,20 +70,24 @@ export class Tab1Page {
 
   // Favourites a post
   favouritePost(item) {
-    const file = {
-      file_id: item.file_id
-    };
-    item.favourited = true;
-    this.mediaProvider.favouriteMedia(file).subscribe(res => {
-      console.log(res);
-    });
+    if (this.mediaProvider.loggedIn) {
+      const file = {
+        file_id: item.file_id
+      };
+      item.favourited = true;
+      this.mediaProvider.favouriteMedia(file).subscribe(res => {
+        console.log(res);
+      });
+    }
   }
 
   // Unfavourites a post
   unFavouritePost(item) {
-    item.favourited = false;
-    this.mediaProvider.deleteFavourite(item.file_id).subscribe(res => {
-      console.log(res);
-    });
+    if (this.mediaProvider.loggedIn) {
+      item.favourited = false;
+      this.mediaProvider.deleteFavourite(item.file_id).subscribe(res => {
+        console.log(res);
+      });
+    }
   }
 }

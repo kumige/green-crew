@@ -86,6 +86,8 @@ export class LoginPage implements OnInit {
         if (!this.mediaProvider.loggedIn) {
           this.mediaProvider.loggedIn = true;
           localStorage.setItem("token", res.token);
+          this.registering = false;
+          this.registerForm.reset();
           this.navCtrl.navigateForward("");
         } else {
           this.navCtrl.navigateForward("");
@@ -96,8 +98,6 @@ export class LoginPage implements OnInit {
         this.presentAlert("Invalid password or username");
       }
     );
-    this.registering = false;
-    this.registerForm.reset();
   };
 
   // Checks if every field is valid before registering the user
