@@ -110,45 +110,6 @@
   </div>
 
   <ion-card *ngIf="this.fileData">
-    <img id="preview" [ngStyle]="getFilters()" [src]="this.fileData" />
-
-    <ion-list>
-      <ion-item>
-        <ion-range
-          min="0"
-          max="200"
-          step="2"
-          [(ngModel)]="brightness"
-          pin="true"
-        >
-          <ion-icon small range-left name="sunny"></ion-icon>
-          <ion-icon range-right name="sunny"></ion-icon>
-        </ion-range>
-      </ion-item>
-      <ion-item>
-        <ion-range min="0" max="200" step="2" [(ngModel)]="contrast" pin="true">
-          <ion-icon small range-left name="contrast"></ion-icon>
-          <ion-icon range-right name="contrast"></ion-icon>
-        </ion-range>
-      </ion-item>
-      <ion-item>
-        <ion-range
-          min="0"
-          max="200"
-          step="2"
-          [(ngModel)]="saturation"
-          pin="true"
-        >
-          <ion-icon small range-left name="water"></ion-icon>
-          <ion-icon range-right name="water"></ion-icon>
-        </ion-range>
-      </ion-item>
-      <ion-item>
-        <ion-range min="0" max="100" step="2" [(ngModel)]="sepia" pin="true">
-          <ion-icon small range-left name="thermometer"></ion-icon>
-          <ion-icon range-right name="thermometer"></ion-icon>
-        </ion-range>
-      </ion-item>
-    </ion-list>
+    <img id="preview" [src]="this.fileData" />
   </ion-card>
 </ion-content>

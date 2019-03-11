@@ -13,18 +13,22 @@
 
 <ion-content padding>
   <img
+    *ngIf="imageContent"
     [src]="
       'http://media.mw.metropolia.fi/wbma/uploads/' + this.postData.filename
     "
   />
 
-  <video *ngIf="videoContent" width="320" height="240" controls>
-    <source
-      [src]="
-        'http://media.mw.metropolia.fi/wbma/uploads/' + this.postData.filename
-      "
-    />
-  </video>
+  <div *ngIf="videoContent" class="centerer">
+    <video controls width="360" height="240">
+      <source
+        [src]="
+          'http://media.mw.metropolia.fi/wbma/uploads/' + this.postData.filename
+        "
+      />
+    </video>
+  </div>
+
   <audio *ngIf="audioContent" controls>
     <source
       [src]="
@@ -52,48 +56,56 @@
     </section>
   </div>
   <ion-item-divider></ion-item-divider>
-  <h3 class="centerer comment-header">Comments</h3>
-  <form [formGroup]="commentForm">
-    <div
-      class="error-message"
-      *ngIf="
-        commentForm.get('comment').status === 'INVALID' &&
-        (commentForm.get('comment').dirty || commentForm.get('comment').touched)
-      "
-    >
-      The comment must be at least 3 characters long.
+  <div class="centerer" *ngIf="!this.mediaProvider.loggedIn">
+    <div class="login-info">
+      <ion-icon class="big-icon" name="key"></ion-icon>
+      <p class="login-text">Log in to view comments</p>
     </div>
-    <div class="comment-box">
-      <ion-textarea
-        class="comment-area"
-        placeholder="Type your comment here..."
-        type="text"
-        formControlName="comment"
-        maxLength="255"
-        (ionChange)="test()"
-      ></ion-textarea>
+  </div>
+  <div *ngIf="this.mediaProvider.loggedIn">
+    <h3 class="centerer comment-header">Comments</h3>
+    <form [formGroup]="commentForm">
+      <div
+        class="error-message"
+        *ngIf="
+          commentStatus &&
+          (commentForm.get('comment').dirty ||
+            commentForm.get('comment').touched)
+        "
+      >
+        The comment must be at least 3 characters long.
+      </div>
+      <div class="comment-box">
+        <ion-textarea
+          class="comment-area"
+          placeholder="Type your comment here..."
+          type="text"
+          formControlName="comment"
+          maxLength="255"
+        ></ion-textarea>
+      </div>
+
+      <ion-button class="centerer" (click)="postComment()"
+        >Post comment</ion-button
+      >
+    </form>
+
+    <div *ngFor="let comment of commentArray">
+      <ion-card class="comment-container">
+        <ion-icon
+          *ngIf="comment.ownComment"
+          (click)="deleteComment(comment)"
+          class="del"
+          name="close"
+        ></ion-icon>
+        <ion-card-content>
+          <div class="comment-info">
+            <p class="user">{{ comment.username }}</p>
+            <p class="time">{{ comment.time_added | date: "dd/MM/yyyy" }}</p>
+          </div>
+          <p class="comment">{{ comment.comment }}</p>
+        </ion-card-content>
+      </ion-card>
     </div>
-
-    <ion-button class="centerer" (click)="postComment()"
-      >Post comment</ion-button
-    >
-  </form>
-
-  <div *ngFor="let comment of commentArray">
-    <ion-card class="comment-container">
-      <ion-icon
-        *ngIf="comment.ownComment"
-        (click)="deleteComment(comment)"
-        class="del"
-        name="close"
-      ></ion-icon>
-      <ion-card-content>
-        <div class="comment-info">
-          <p class="user">{{ comment.username }}</p>
-          <p class="time">{{ comment.time_added | date: "dd/MM/yyyy" }}</p>
-        </div>
-        <p class="comment">{{ comment.comment }}</p>
-      </ion-card-content>
-    </ion-card>
   </div>
 </ion-content>

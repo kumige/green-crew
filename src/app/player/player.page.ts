@@ -58,8 +58,32 @@ export class PlayerPage implements OnInit {
   }
 
   getPost() {
-    this.postData = this.singleMediaService.getPost();
-    this.description = this.singleMediaService.getDescription();
+    try {
+      this.postData = this.singleMediaService.getPost();
+      this.description = this.singleMediaService.getDescription();
+    } catch (error) {
+      this.navCtrl.navigateBack("");
+    }
+
+    switch (this.postData.media_type) {
+      case "video":
+        this.videoContent = true;
+        break;
+
+      case "audio":
+        this.audioContent = true;
+
+        break;
+      case "image":
+        this.imageContent = true;
+
+        break;
+
+      default:
+        this.imageContent = true;
+
+        break;
+    }
   }
 
   getComments() {

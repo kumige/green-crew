@@ -21,6 +21,16 @@
   }
 }
 
+.login-info {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  color: gray;
+  .login-text {
+    margin-top: 4px;
+  }
+}
+
 .description {
   display: flex;
   flex-flow: column;

@@ -26,23 +26,25 @@
       </ion-card-header>
 
       <ion-card-content>
-        <img
-          class="thumbnail"
-          *ngIf="item.media_type == 'image'"
-          [alt]="item.title"
-          [src]="
-            'http://media.mw.metropolia.fi/wbma/uploads/' +
-            (item.file_id | thumbnail: 'large' | async)
-          "
-        />
-        <img
-          *ngIf="item.media_type == 'video'"
-          [alt]="item.title"
-          [src]="
-            'http://media.mw.metropolia.fi/wbma/uploads/' +
-            (item.file_id | thumbnail: 'screenshot' | async)
-          "
-        />
+        <div class="image-container">
+          <img
+            class="thumbnail"
+            *ngIf="item.media_type == 'image'"
+            [alt]="item.title"
+            [src]="
+              'http://media.mw.metropolia.fi/wbma/uploads/' +
+              (item.file_id | thumbnail: 'large' | async)
+            "
+          />
+          <img
+            *ngIf="item.media_type == 'video'"
+            [alt]="item.title"
+            [src]="
+              'http://media.mw.metropolia.fi/wbma/uploads/' +
+              (item.file_id | thumbnail: 'screenshot' | async)
+            "
+          />
+        </div>
       </ion-card-content>
     </ion-card>
   </ion-list>
