@@ -23,7 +23,9 @@ export class Tab1Page {
     public router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.getFiles();
   }
 

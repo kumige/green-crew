@@ -16,7 +16,6 @@
     [src]="
       'http://media.mw.metropolia.fi/wbma/uploads/' + this.postData.filename
     "
-    [ngStyle]="getFilters()"
   />
 
   <video *ngIf="videoContent" width="320" height="240" controls>
@@ -47,9 +46,54 @@
         <span class="single">{{ ing.name }}</span>
         <span class="single">{{ ing.amount }}</span>
       </div>
-      <div class="instructions centerer">
+      <div class="instructions">
         {{ this.description.instructions }}
       </div>
     </section>
+  </div>
+  <ion-item-divider></ion-item-divider>
+  <h3 class="centerer comment-header">Comments</h3>
+  <form [formGroup]="commentForm">
+    <div
+      class="error-message"
+      *ngIf="
+        commentForm.get('comment').status === 'INVALID' &&
+        (commentForm.get('comment').dirty || commentForm.get('comment').touched)
+      "
+    >
+      The comment must be at least 3 characters long.
+    </div>
+    <div class="comment-box">
+      <ion-textarea
+        class="comment-area"
+        placeholder="Type your comment here..."
+        type="text"
+        formControlName="comment"
+        maxLength="255"
+        (ionChange)="test()"
+      ></ion-textarea>
+    </div>
+
+    <ion-button class="centerer" (click)="postComment()"
+      >Post comment</ion-button
+    >
+  </form>
+
+  <div *ngFor="let comment of commentArray">
+    <ion-card class="comment-container">
+      <ion-icon
+        *ngIf="comment.ownComment"
+        (click)="deleteComment(comment)"
+        class="del"
+        name="close"
+      ></ion-icon>
+      <ion-card-content>
+        <div class="comment-info">
+          <p class="user">{{ comment.username }}</p>
+          <p class="time">{{ comment.time_added | date: "dd/MM/yyyy" }}</p>
+        </div>
+        <p class="comment">{{ comment.comment }}</p>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

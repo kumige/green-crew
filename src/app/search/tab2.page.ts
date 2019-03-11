@@ -13,7 +13,7 @@ import { Router } from "@angular/router";
   styleUrls: ["tab2.page.scss"]
 })
 export class Tab2Page {
-  searchTerm: string;
+  searchTerm = "";
   postArray: any = [];
 
   constructor(
@@ -24,7 +24,6 @@ export class Tab2Page {
   ) {}
 
   search() {
-    console.log(this.postArray);
     //clear previous search results
     this.postArray.forEach(element => {
       this.postArray.pop();

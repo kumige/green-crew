@@ -4,7 +4,7 @@ import {
   RegisterResponse,
   UserCheck
 } from "./../interfaces/user";
-import { IPic } from "./../interfaces/file";
+import { IPic, IComment } from "./../interfaces/file";
 import { Component, OnInit } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 
@@ -45,16 +45,34 @@ export class MediaProviderPage implements OnInit {
     );
   }
 
-  searchFiles(term: any) {
+  getComments(id) {
+    return this.http.get<IComment[]>(
+      "http://media.mw.metropolia.fi/wbma/comments/file/" + id
+    );
+  }
+
+  postComment(data) {
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         "x-access-token": localStorage.getItem("token")
       })
     };
-    return this.http.post<IPic[]>(
-      "http://media.mw.metropolia.fi/wbma/media/search/",
-      term,
+    return this.http.post(
+      "http://media.mw.metropolia.fi/wbma/comments/",
+      data,
+      httpOptions
+    );
+  }
+
+  deleteComment(id) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "x-access-token": localStorage.getItem("token")
+      })
+    };
+    return this.http.delete(
+      "http://media.mw.metropolia.fi/wbma/comments/" + id,
       httpOptions
     );
   }

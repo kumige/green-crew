@@ -1,9 +1,17 @@
-<ion-content>
+<ion-content class="centerer">
   <ion-searchbar
     [(ngModel)]="searchTerm"
     (ionChange)="search()"
   ></ion-searchbar>
 
+  <div class="centerer" *ngIf="this.postArray.length == 0">
+    <div class="search-info">
+      <ion-icon class="big-icon" name="search"></ion-icon>
+      <p class="search-text">
+        Type an ingredient or a food name in the search bar!
+      </p>
+    </div>
+  </div>
   <ion-list>
     <ion-card *ngFor="let item of postArray" (click)="showSinglePost(item)">
       <ion-card-header>

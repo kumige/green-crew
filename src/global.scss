@@ -34,13 +34,26 @@ $font-family: "helvetica Neue";
   /* Set the background of the entire app */
   --ion-background-color: #f4f4f4;
 
+  /** Gc colors **/
+  $gc-primary: #64ad4e;
+  $gc-secondary: #3f6e31;
+  $gc-tertiary: #90fa71;
+  $gc-light: #f4f4f4;
+  $gc-dark: #222222;
+  $gc-danger: #f53d3d;
+
   ion-button {
     color: $gc-light;
     --background: #64ad4e;
+    --border-color: $gc-secondary;
   }
 
   ion-icon {
     font-size: 28px;
+  }
+
+  .big-icon {
+    font-size: 40px;
   }
 
   ion-card {
@@ -54,6 +67,26 @@ $font-family: "helvetica Neue";
     }
   }
 
+  .image-container {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    overflow: hidden;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+
+  .thumbnail {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: block;
+    border-radius: 4px;
+  }
+
   .heart-empty {
     color: #64ad4e;
     font-size: 28px;
@@ -61,6 +94,10 @@ $font-family: "helvetica Neue";
 
   .back-arrow {
     margin-left: 8px;
+  }
+
+  .error-message {
+    color: $gc-danger;
   }
 
   .toolbar {
