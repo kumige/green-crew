@@ -82,9 +82,10 @@
   display: flex;
   flex-flow: row;
   justify-content: space-between;
+  font-size: 16px;
 }
 .user {
-  font-size: 18px;
+  font-size: 22px;
   color: #222;
 }
 
@@ -92,5 +93,5 @@
 }
 
 .comment {
-  font-size: 14px;
+  font-size: 18px;
 }

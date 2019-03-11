@@ -39,10 +39,22 @@ $gc-danger: #f53d3d;
   $gc-dark: #222222;
   $gc-danger: #f53d3d;
 
+  --ion-font-family: "Crimson Text", serif;
+  font-size: 18px;
+
+  .sans-serif {
+    font-family: "Nanum Gothic", sans-serif;
+  }
+
+  ion-card-subtitle {
+    font-family: "Nanum Gothic", sans-serif;
+  }
+
   ion-button {
     color: $gc-light;
     --background: #64ad4e;
     --border-color: $gc-secondary;
+    font-family: "Nanum Gothic", sans-serif;
   }
 
   ion-icon {
