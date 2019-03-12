@@ -125,6 +125,7 @@ export class UploadPage implements OnInit {
     return await loadingElement.present();
   }
 
+  // Add the app's tag to the post
   addFilterTag(fileId) {
     const tag = {
       file_id: fileId,

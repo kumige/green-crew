@@ -19,7 +19,6 @@ export class PlayerPage implements OnInit {
   postData;
   description: IDesc;
   ownPost = false;
-  picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   user;
   thumbnail: string;
   commentArray = [];
@@ -50,7 +49,6 @@ export class PlayerPage implements OnInit {
   //Load content
   ionViewWillEnter() {
     this.getPost();
-    //this.getProfilePic();
     this.getComments();
     this.isFavourited();
 
@@ -71,6 +69,7 @@ export class PlayerPage implements OnInit {
     this.ownPost = false;
   }
 
+  // Get the chosen post from singleMediaService
   getPost() {
     try {
       this.postData = this.singleMediaService.getPost();
@@ -104,6 +103,7 @@ export class PlayerPage implements OnInit {
     this.deletePostAlert("Are you sure you want to delete this post?");
   }
 
+  // Creates the alert pop-up for deleting recipes
   async deletePostAlert(alertMsg: string) {
     const alert = await this.alertCtrl.create({
       message: alertMsg,
@@ -129,6 +129,7 @@ export class PlayerPage implements OnInit {
     await alert.present();
   }
 
+  // Load all comments
   getComments() {
     return new Promise((resolve, reject) => {
       this.mediaProvider.getComments(this.postData.file_id).subscribe(res => {
@@ -206,7 +207,7 @@ export class PlayerPage implements OnInit {
     this.deleteAlert("Are you sure you want to delete this comment?", comment);
   }
 
-  // Creates the alert pop-up for deleting recipes
+  // Creates the alert pop-up for deleting comments
   async deleteAlert(alertMsg: string, comment) {
     const alert = await this.alertCtrl.create({
       message: alertMsg,
