@@ -50,10 +50,16 @@
   </div>
 
   <ion-list *ngIf="!favouritesTab">
+    <div class="centerer">
+      <p *ngIf="showNoUploadsMsg === 0">
+        You have not published any recipes yet!
+      </p>
+    </div>
+
     <ion-card *ngFor="let item of allFiles">
       <ion-card-header>
         <ion-avatar>
-          <img [src]="this.picUrl" />
+          <img [src]="this.usersProfilePicUrl" />
         </ion-avatar>
         <div class="postTitle">
           <div>
@@ -107,6 +113,12 @@
   </ion-list>
 
   <ion-list *ngIf="favouritesTab">
+    <div class="centerer">
+      <p *ngIf="showNoFavoutitesMsg === 0">
+        You have not favourited any recipes yet!
+      </p>
+    </div>
+
     <ion-card *ngFor="let item of arrayOfFavourites">
       <ion-card-header>
         <ion-avatar>
