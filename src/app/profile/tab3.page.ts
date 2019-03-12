@@ -112,38 +112,42 @@ export class Tab3Page {
     this.reset();
     this.getProfilePicture();
 
-    // sets the profileArray in the single media service
-    this.singleMediaService.setProfileData(this.profileArray);
-    this.singleMediaService.setProfileBackground(this.randomPicture);
+    this.mediaProvider.getProfileData().subscribe(res => {
+      this.profileArray = res;
 
-    // Gets all the posts with "gc" tag and with foreach we get the info we need to get the posts that are posted by the user
-    this.uploadsArray = this.mediaProvider.getFilesByTag("gc", this.start);
+      // sets the profileArray in the single media service
+      this.singleMediaService.setProfileData(this.profileArray);
+      this.singleMediaService.setProfileBackground(this.randomPicture);
 
-    this.uploadsArray.forEach(element => {
-      element.forEach(usersMedia => {
-        if (usersMedia.user_id === this.profileArray.user_id) {
-          //console.log(element2);
-          this.allFiles.push(usersMedia);
+      // Gets all the posts with "gc" tag and with foreach we get the info we need to get the posts that are posted by the user
+      this.uploadsArray = this.mediaProvider.getFilesByTag("gc", this.start);
 
-          // Sorts the posts by the file_id (gets the newest picture on top)
-          this.allFiles.sort((a, b) => {
-            return b.file_id - a.file_id;
-          });
+      this.uploadsArray.forEach(element => {
+        element.forEach(usersMedia => {
+          if (usersMedia.user_id === this.profileArray.user_id) {
+            //console.log(element2);
+            this.allFiles.push(usersMedia);
 
-          // Changes the icon for all the posts that are favourited
-          // Gets all the favourited posts
-          this.mediaProvider.getFavourites().subscribe(res => {
-            this.allFavouritedPosts = res;
-
-            // Checks which posts are favourited by the user and changes the icon
-            this.allFavouritedPosts.forEach(favourited => {
-              if (favourited.file_id === usersMedia.file_id) {
-                usersMedia.favourited = true;
-              }
+            // Sorts the posts by the file_id (gets the newest picture on top)
+            this.allFiles.sort((a, b) => {
+              return b.file_id - a.file_id;
             });
-          });
-          //console.log(this.allFiles);
-        }
+
+            // Changes the icon for all the posts that are favourited
+            // Gets all the favourited posts
+            this.mediaProvider.getFavourites().subscribe(res => {
+              this.allFavouritedPosts = res;
+
+              // Checks which posts are favourited by the user and changes the icon
+              this.allFavouritedPosts.forEach(favourited => {
+                if (favourited.file_id === usersMedia.file_id) {
+                  usersMedia.favourited = true;
+                }
+              });
+            });
+            //console.log(this.allFiles);
+          }
+        });
       });
     });
   }
