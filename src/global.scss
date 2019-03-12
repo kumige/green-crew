@@ -47,10 +47,6 @@ $gc-danger: #f53d3d;
     font-family: "Nanum Gothic", sans-serif;
   }
 
-  ion-card-subtitle {
-    font-family: "Nanum Gothic", sans-serif;
-  }
-
   ion-card-title {
     white-space: nowrap;
     overflow: hidden;
@@ -109,25 +105,6 @@ $gc-danger: #f53d3d;
     }
   }
 
-  /*.image-container {
-    width: 100%;
-    padding-top: 100%;
-    position: relative;
-    overflow: hidden;
-    object-fit: contain;
-    border-radius: 4px;
-  }
-    .thumbnail {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    display: block;
-    border-radius: 4px;
-  }
-  */
   .image-container {
     display: flex;
     justify-content: center;
@@ -155,11 +132,11 @@ $gc-danger: #f53d3d;
   }
 
   .back-arrow {
-    margin-left: 8px;
+    margin-left: 16px;
   }
 
   .trash {
-    margin-right: 8px;
+    margin-right: 16px;
   }
 
   .error-message {

@@ -222,10 +222,6 @@ export class PlayerPage implements OnInit {
     this.navCtrl.navigateBack(this.singleMediaService.getPreviousUrl());
   }
 
-  getImg() {
-    return this.picUrl;
-  }
-
   getProfilePic() {
     this.mediaProvider.getProfilePic("profile").subscribe((res: any[]) => {
       res.forEach(element => {
