@@ -16,6 +16,8 @@ export class Tab2Page {
   searchTerm = "";
   postArray: any = [];
   start = 0;
+  thumbnail: string;
+  picUrl = "";
 
   constructor(
     public mediaProvider: MediaProviderPage,
@@ -42,6 +44,20 @@ export class Tab2Page {
                 description.name.toLowerCase() === this.searchTerm
               ) {
                 if (!this.postExists(res[i])) {
+                  console.log(res[i]);
+                  this.mediaProvider
+                    .getProfilePic("profile")
+                    .subscribe((res2: any[]) => {
+                      res2.forEach(element => {
+                        if (element.user_id === res[i].user_id) {
+                          this.thumbnail = element.filename.split(".");
+                          this.thumbnail = this.thumbnail[0] + "-tn160.png";
+                          this.picUrl =
+                            "http://media.mw.metropolia.fi/wbma/uploads/";
+                          this.picUrl += this.thumbnail;
+                        }
+                      });
+                    });
                   this.postArray.push(res[i]);
                 }
               }
@@ -68,5 +84,27 @@ export class Tab2Page {
     this.singleMediaService.setPost(item);
     this.singleMediaService.setPreviousUrl(this.router.url);
     this.navCtrl.navigateForward("/tabs/player");
+  }
+
+  favouritePost(item) {
+    if (this.mediaProvider.loggedIn) {
+      const file = {
+        file_id: item.file_id
+      };
+      item.favourited = true;
+      this.mediaProvider.favouriteMedia(file).subscribe(res => {
+        console.log(res);
+      });
+    }
+  }
+
+  // Unfavourites a post
+  unFavouritePost(item) {
+    if (this.mediaProvider.loggedIn) {
+      item.favourited = false;
+      this.mediaProvider.deleteFavourite(item.file_id).subscribe(res => {
+        console.log(res);
+      });
+    }
   }
 }
