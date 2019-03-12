@@ -27,7 +27,6 @@ export class Tab3Page {
 
   profileArray: Profile = { username: null };
   mediaUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
-  uploadsArray: Observable<IPic[]>;
   allFiles: any = [];
   randomPicture: string;
   favouritesTab: boolean = false;
@@ -38,8 +37,10 @@ export class Tab3Page {
   arrayOfFavourites: any = [];
   arrayOfMedia: Observable<IPic[]>;
   thumbnail: string;
-  picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
+  picUrl;
   usersProfilePicUrl: string;
+  showNoUploadsMsg;
+  showNoFavoutitesMsg;
   start = 0;
 
   // Background images
@@ -53,12 +54,14 @@ export class Tab3Page {
   ];
 
   ionViewWillEnter() {
+    this.getUserData();
+    this.getProfilePicture();
     this.usersProfilePicUrl = "";
     this.buttonColor = "#f4f4f4";
     this.buttonColor2 = "#E9E9E9";
     this.favouritesTab = false;
-    this.getProfilePicture();
-    this.getUserData();
+    this.showNoFavoutitesMsg = 0;
+    this.showNoUploadsMsg = 0;
     this.randomImage();
     this.profileUpdatedAlert();
   }
@@ -68,7 +71,6 @@ export class Tab3Page {
     this.allFiles = [];
     this.allFavouritedPosts = [];
     this.arrayOfFavourites = [];
-    this.uploadsArray = null;
     this.profileArray = { username: null };
   }
 
@@ -84,13 +86,10 @@ export class Tab3Page {
             let newUrl = this.mediaUrl + picture.filename;
             this.usersProfilePicUrl = newUrl;
           }
-          this.singleMediaService.setProfilePictureUrl(this.usersProfilePicUrl);
           if (this.usersProfilePicUrl === "") {
             this.usersProfilePicUrl = "../../assets/Gc-Pfp.png";
-            this.singleMediaService.setProfilePictureUrl(
-              this.usersProfilePicUrl
-            );
           }
+          this.singleMediaService.setProfilePictureUrl(this.usersProfilePicUrl);
         });
       });
     });
@@ -120,6 +119,7 @@ export class Tab3Page {
   getUserData() {
     this.reset();
     this.getProfilePicture();
+    let uploadsArray = [];
 
     this.mediaProvider.getProfileData().subscribe(res => {
       this.profileArray = res;
@@ -129,13 +129,13 @@ export class Tab3Page {
       this.singleMediaService.setProfileBackground(this.randomPicture);
 
       // Gets all the posts with "gc" tag and with foreach we get the info we need to get the posts that are posted by the user
-      this.uploadsArray = this.mediaProvider.getFilesByTag("gc", this.start);
-
-      this.uploadsArray.forEach(element => {
-        element.forEach(usersMedia => {
+      this.mediaProvider.getFilesByTag("gc", this.start).subscribe(res => {
+        uploadsArray = res;
+        uploadsArray.forEach(usersMedia => {
           if (usersMedia.user_id === this.profileArray.user_id) {
             //console.log(element2);
             this.allFiles.push(usersMedia);
+            this.showNoUploadsMsg = this.allFiles.length;
 
             // Sorts the posts by the file_id (gets the newest picture on top)
             this.allFiles.sort((a, b) => {
@@ -267,6 +267,8 @@ export class Tab3Page {
             if (favourited.file_id === mediaDetails.file_id) {
               mediaDetails.favourited = true;
               this.arrayOfFavourites.push(mediaDetails);
+
+              this.showNoFavoutitesMsg = this.arrayOfFavourites.length;
 
               // Sorts the favourited posts
               this.arrayOfFavourites.sort((a, b) => {
