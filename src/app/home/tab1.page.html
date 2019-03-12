@@ -15,27 +15,31 @@
       (click)="showSinglePost(item)"
     >
       <ion-card-header>
+        <ion-avatar>
+          <img [src]="this.picUrl" />
+        </ion-avatar>
         <div class="postTitle">
-          <ion-card-title>{{ item.title }}</ion-card-title>
-          <ion-card-subtitle>{{
-            item.user_id | userData | async
-          }}</ion-card-subtitle>
+          <div>
+            <ion-card-title>{{ item.title }}</ion-card-title>
+            <ion-card-subtitle>{{
+              item.user_id | userData | async
+            }}</ion-card-subtitle>
+          </div>
+          <button *ngIf="!item.favourited">
+            <ion-icon
+              (click)="favouritePost(item)"
+              class="heart"
+              name="heart-empty"
+            ></ion-icon>
+          </button>
+          <button *ngIf="item.favourited">
+            <ion-icon
+              (click)="unFavouritePost(item)"
+              class="heart"
+              name="heart"
+            ></ion-icon>
+          </button>
         </div>
-
-        <button *ngIf="!item.favourited">
-          <ion-icon
-            (click)="favouritePost(item)"
-            class="heart"
-            name="heart-empty"
-          ></ion-icon>
-        </button>
-        <button *ngIf="item.favourited">
-          <ion-icon
-            (click)="unFavouritePost(item)"
-            class="heart"
-            name="heart"
-          ></ion-icon>
-        </button>
       </ion-card-header>
 
       <ion-card-content>

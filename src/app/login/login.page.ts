@@ -87,7 +87,7 @@ export class LoginPage implements OnInit {
           this.mediaProvider.loggedIn = true;
           localStorage.setItem("token", res.token);
           this.registering = false;
-          this.registerForm.reset();
+          this.resetForms();
           this.navCtrl.navigateForward("");
         } else {
           this.navCtrl.navigateForward("");

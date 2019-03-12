@@ -69,9 +69,18 @@ $gc-danger: #f53d3d;
     ion-card-header {
       display: flex;
       flex-flow: row;
-      justify-content: space-between;
+      ion-avatar {
+        width: 64px;
+      }
       .postTitle {
-        display: block;
+        margin-left: 10px;
+        width: 77%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        div {
+          display: block;
+        }
       }
     }
   }
@@ -96,7 +105,7 @@ $gc-danger: #f53d3d;
     border-radius: 4px;
   }
 
-  .heart-empty {
+  .heart {
     color: #64ad4e;
     font-size: 28px;
   }

@@ -1,21 +1,5 @@
 @import "../../global.scss";
 
-ion-card {
-  ion-card-header {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    .postTitle {
-      display: block;
-    }
-  }
-}
-
-.heart {
-  color: #64ad4e;
-  font-size: 28px;
-}
-
 button {
   background-color: #f4f4f4;
 }
