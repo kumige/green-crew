@@ -30,6 +30,7 @@ $gc-danger: #f53d3d;
 :root {
   /* Set the background of the entire app */
   --ion-background-color: #f4f4f4;
+  --color-selected: $gc-secondary;
   $tabs-md-tab-color-active: color($colors, dark);
   /** Gc colors **/
   $gc-primary: #64ad4e;
