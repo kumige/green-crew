@@ -58,12 +58,12 @@ export class Tab3Page {
   ionViewWillEnter() {
     this.getUserData();
     this.getProfilePicture();
+    this.showNoUploadsMsg = 0;
+    this.showNoFavoutitesMsg = 0;
     this.usersProfilePicUrl = "";
     this.buttonColor = "#f4f4f4";
     this.buttonColor2 = "#E9E9E9";
     this.favouritesTab = false;
-    this.showNoFavoutitesMsg = 0;
-    this.showNoUploadsMsg = 0;
     this.randomImage();
     this.profileUpdatedAlert();
     this.mediaProvider.getFavourites().subscribe(res => {
@@ -92,30 +92,13 @@ export class Tab3Page {
             let newUrl = this.mediaUrl + picture.filename;
             this.usersProfilePicUrl = newUrl;
           }
+          this.singleMediaService.setProfilePictureUrl(this.usersProfilePicUrl);
           if (this.usersProfilePicUrl === "") {
             this.usersProfilePicUrl = "../../assets/Gc-Pfp.png";
+            this.singleMediaService.setProfilePictureUrl(
+              this.usersProfilePicUrl
+            );
           }
-          this.singleMediaService.setProfilePictureUrl(this.usersProfilePicUrl);
-        });
-      });
-    });
-
-    let postsInfo: any = [];
-
-    // Gets all the media
-    postsInfo = this.mediaProvider.getFilesByTag("gc", this.start);
-    postsInfo.forEach(media => {
-      // Gets profile picture for each post
-      media.forEach(mediaDetails => {
-        this.mediaProvider.getProfilePic("profile").subscribe((res: any[]) => {
-          res.forEach(element => {
-            if (element.user_id === mediaDetails.user_id) {
-              this.thumbnail = element.filename.split(".");
-              this.thumbnail = this.thumbnail[0] + "-tn160.png";
-              this.picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
-              this.picUrl += this.thumbnail;
-            }
-          });
         });
       });
     });
@@ -257,33 +240,48 @@ export class Tab3Page {
 
   // Gets all the posts that the user has favourited
   getFavoritedMedia() {
-    this.getProfilePicture();
-    let favorites: any = [];
+    let favouritedPostsArray;
 
-    // Gets all the media ( with forEach we get the information we need )
-    this.arrayOfMedia = this.mediaProvider.getFilesByTag("gc", this.start);
-    this.arrayOfMedia.forEach(media => {
-      media.forEach(mediaDetails => {
-        // Gets the posts that are favourited
-        this.mediaProvider.getFavourites().subscribe(res => {
-          favorites = res;
+    // Gets all the media
+    this.mediaProvider.getFilesByTag("gc", this.start).subscribe(tagPosts => {
+      this.mediaProvider
+        .getProfilePic("profile")
+        .subscribe((profileTagPosts: any) => {
+          tagPosts.forEach(singlePost => {
+            let profilePicUrl;
 
-          // Changed the icon for all the posts that are favourited
-          favorites.forEach(favourited => {
-            if (favourited.file_id === mediaDetails.file_id) {
-              mediaDetails.favourited = true;
-              this.arrayOfFavourites.push(mediaDetails);
-
-              this.showNoFavoutitesMsg = this.arrayOfFavourites.length;
-
-              // Sorts the favourited posts
-              this.arrayOfFavourites.sort((a, b) => {
-                return b.file_id - a.file_id;
-              });
+            // Gets profile picture
+            for (let i = profileTagPosts.length - 1; i >= 0; i--) {
+              if (profileTagPosts[i].user_id === singlePost.user_id) {
+                this.thumbnail = profileTagPosts[i].filename.split(".");
+                this.thumbnail = this.thumbnail[0] + "-tn160.png";
+                profilePicUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
+                singlePost.profilePicUrl = profilePicUrl + this.thumbnail;
+                break;
+              } else {
+                singlePost.profilePicUrl = "../../assets/Gc-Pfp.png";
+              }
             }
+
+            // Get the media that are favourited
+            this.mediaProvider.getFavourites().subscribe(res => {
+              favouritedPostsArray = res;
+
+              // Changes the icon for all the posts that are favourited
+              favouritedPostsArray.forEach(favourited => {
+                if (favourited.file_id === singlePost.file_id) {
+                  this.arrayOfFavourites.push(singlePost);
+                  singlePost.favourited = true;
+
+                  this.showNoFavoutitesMsg = this.arrayOfFavourites.length;
+                }
+                this.arrayOfFavourites.sort((a, b) => {
+                  return b.file_id - a.file_id;
+                });
+              });
+            });
           });
         });
-      });
     });
   }
 }
