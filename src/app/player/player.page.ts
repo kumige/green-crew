@@ -235,6 +235,9 @@ export class PlayerPage implements OnInit {
           this.picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
           this.picUrl += this.thumbnail;
         }
+        if (this.picUrl === "") {
+          this.picUrl = "../../assets/Gc-Pfp.png";
+        }
       });
     });
   }

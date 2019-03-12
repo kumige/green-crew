@@ -55,6 +55,9 @@ export class Tab1Page {
               this.picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
               this.picUrl += this.thumbnail;
             }
+            if (this.picUrl === "") {
+              this.picUrl = "../../assets/Gc-Pfp.png";
+            }
           });
         });
 

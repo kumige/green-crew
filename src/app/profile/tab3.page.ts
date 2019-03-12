@@ -53,6 +53,7 @@ export class Tab3Page {
   ];
 
   ionViewWillEnter() {
+    this.usersProfilePicUrl = "";
     this.buttonColor = "#f4f4f4";
     this.buttonColor2 = "#E9E9E9";
     this.favouritesTab = false;
@@ -84,6 +85,12 @@ export class Tab3Page {
             this.usersProfilePicUrl = newUrl;
           }
           this.singleMediaService.setProfilePictureUrl(this.usersProfilePicUrl);
+          if (this.usersProfilePicUrl === "") {
+            this.usersProfilePicUrl = "../../assets/Gc-Pfp.png";
+            this.singleMediaService.setProfilePictureUrl(
+              this.usersProfilePicUrl
+            );
+          }
         });
       });
     });
