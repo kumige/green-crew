@@ -10,10 +10,10 @@
 
 <ion-content>
   <ion-list>
-    <ion-card *ngFor="let item of mediaFilesArray">
+    <ion-card *ngFor="let item of postArray">
       <ion-card-header>
         <ion-avatar>
-          <img [src]="this.picUrl" />
+          <img [src]="item.profilePicUrl" />
         </ion-avatar>
         <div class="postTitle">
           <div class="postTitle">
