@@ -93,6 +93,8 @@ export class Tab3Page {
             this.usersProfilePicUrl = newUrl;
           }
           this.singleMediaService.setProfilePictureUrl(this.usersProfilePicUrl);
+
+          // If there is no profile picture, sets a default profile pic
           if (this.usersProfilePicUrl === "") {
             this.usersProfilePicUrl = "../../assets/Gc-Pfp.png";
             this.singleMediaService.setProfilePictureUrl(
