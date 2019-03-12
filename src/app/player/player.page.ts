@@ -252,10 +252,10 @@ export class PlayerPage implements OnInit {
   }
 
   // Favourites a post
-  favouritePost(item) {
+  favouritePost() {
     if (this.mediaProvider.loggedIn) {
       const file = {
-        file_id: item.file_id
+        file_id: this.postData.file_id
       };
       this.favourited = true;
       this.mediaProvider.favouriteMedia(file).subscribe(res => {
@@ -265,12 +265,14 @@ export class PlayerPage implements OnInit {
   }
 
   // Unfavourites a post
-  unFavouritePost(item) {
+  unFavouritePost() {
     if (this.mediaProvider.loggedIn) {
       this.favourited = false;
-      this.mediaProvider.deleteFavourite(item.file_id).subscribe(res => {
-        console.log(res);
-      });
+      this.mediaProvider
+        .deleteFavourite(this.postData.file_id)
+        .subscribe(res => {
+          console.log(res);
+        });
     }
   }
 

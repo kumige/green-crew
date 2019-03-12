@@ -30,6 +30,7 @@ export class ProfileEditPage implements OnInit {
   fileBlob: Blob;
   pfpChanged: Boolean = false;
   fileData: string;
+  profilePicUrl: string;
 
   ngOnInit() {}
 
@@ -63,17 +64,9 @@ export class ProfileEditPage implements OnInit {
 
   // Gets the user data (profilepicture, username etc)
   getUserData() {
+    this.profilePicUrl = this.singleMediaService.getProfilePictureUrl();
     this.profileArray = this.singleMediaService.getProfileData();
   }
-
-  /*getProfileBackground() {
-    this.backgroundImage = this.singleMediaService.getProfileBackground();
-    console.log(this.backgroundImage);
-    document.getElementById("backgroundImage").setAttribute("src", "");
-    document
-      .getElementById("backgroundImage")
-      .setAttribute("src", this.backgroundImage);
-  }*/
 
   // Navigates back to profile page and resets the form
   navBack() {
@@ -85,11 +78,15 @@ export class ProfileEditPage implements OnInit {
   formReset() {
     this.pfpChanged = false;
     this.fileBlob = null;
-    this.editForm.reset();
+    this.profileEdit.username = undefined;
+    this.profileEdit.email = undefined;
+    this.profileEdit.password = undefined;
+    this.re_password = undefined;
   }
 
   // edits the users info and if new password has been inserted, checks if the passwords match
   editInfo() {
+    this.notEmptyField();
     if (
       this.editForm.controls.username.status === "VALID" &&
       this.editForm.controls.email.status === "VALID" &&
@@ -97,6 +94,7 @@ export class ProfileEditPage implements OnInit {
     ) {
       if (this.samePassword === true) {
         if (this.pfpChanged === false) {
+          console.log(this.profileEdit);
           this.mediaProvider.editProfile(this.profileEdit).subscribe(
             (res: EditResponse) => {
               console.log(res);
@@ -130,6 +128,21 @@ export class ProfileEditPage implements OnInit {
       } else {
         this.presentAlert("Passwords do not match");
       }
+    }
+  }
+
+  notEmptyField() {
+    if (this.profileEdit.username === "") {
+      this.profileEdit.username = undefined;
+    }
+    if (this.profileEdit.email === "") {
+      this.profileEdit.email = undefined;
+    }
+    if (this.profileEdit.password === "") {
+      this.profileEdit.password = undefined;
+    }
+    if (this.re_password === "") {
+      this.re_password = undefined;
     }
   }
 
@@ -223,7 +236,6 @@ export class ProfileEditPage implements OnInit {
     reader.onloadend = evt => {
       this.fileData = reader.result.toString();
     };
-
     reader.readAsDataURL(this.fileBlob);
   }
 }

@@ -50,14 +50,14 @@
       </div>
       <button *ngIf="!favourited">
         <ion-icon
-          (click)="favouritePost(item)"
+          (click)="favouritePost()"
           class="heart"
           name="heart-empty"
         ></ion-icon>
       </button>
       <button *ngIf="favourited">
         <ion-icon
-          (click)="unFavouritePost(item)"
+          (click)="unFavouritePost()"
           class="heart"
           name="heart"
         ></ion-icon>

@@ -64,20 +64,20 @@
               item.user_id | userData | async
             }}</ion-card-subtitle>
           </div>
-          <button *ngIf="!item.favourited">
-            <ion-icon
-              (click)="favouritePost(item)"
-              class="heart"
-              name="heart-empty"
-            ></ion-icon>
-          </button>
-          <button *ngIf="item.favourited">
-            <ion-icon
-              (click)="unFavouritePost(item)"
-              class="heart"
-              name="heart"
-            ></ion-icon>
-          </button>
+
+          <ion-icon
+            *ngIf="!item.favourited"
+            (click)="favouritePost(item)"
+            class="heart"
+            name="heart-empty"
+          ></ion-icon>
+
+          <ion-icon
+            *ngIf="item.favourited"
+            (click)="unFavouritePost(item)"
+            class="heart"
+            name="heart"
+          ></ion-icon>
         </div>
       </ion-card-header>
 
@@ -121,20 +121,20 @@
               item.user_id | userData | async
             }}</ion-card-subtitle>
           </div>
-          <button *ngIf="!item.favourited">
-            <ion-icon
-              (click)="favouritePost(item)"
-              class="heart"
-              name="heart-empty"
-            ></ion-icon>
-          </button>
-          <button *ngIf="item.favourited">
-            <ion-icon
-              (click)="unFavouritePost(item)"
-              class="heart"
-              name="heart"
-            ></ion-icon>
-          </button>
+
+          <ion-icon
+            *ngIf="!item.favourited"
+            (click)="favouritePost(item)"
+            class="heart"
+            name="heart-empty"
+          ></ion-icon>
+
+          <ion-icon
+            *ngIf="item.favourited"
+            (click)="unFavouritePost(item)"
+            class="heart"
+            name="heart"
+          ></ion-icon>
         </div>
       </ion-card-header>
 

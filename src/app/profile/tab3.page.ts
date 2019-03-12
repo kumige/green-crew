@@ -83,6 +83,7 @@ export class Tab3Page {
             let newUrl = this.mediaUrl + picture.filename;
             this.usersProfilePicUrl = newUrl;
           }
+          this.singleMediaService.setProfilePictureUrl(this.usersProfilePicUrl);
         });
       });
     });
