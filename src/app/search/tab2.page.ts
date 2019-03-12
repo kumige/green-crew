@@ -44,7 +44,6 @@ export class Tab2Page {
                 description.name.toLowerCase() === this.searchTerm
               ) {
                 if (!this.postExists(res[i])) {
-                  console.log(res[i]);
                   this.mediaProvider
                     .getProfilePic("profile")
                     .subscribe((res2: any[]) => {

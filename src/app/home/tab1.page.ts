@@ -15,8 +15,9 @@ import { Router } from "@angular/router";
 export class Tab1Page {
   picArray: Observable<IPic[]>;
   nameArray: Observable<[]>;
-  mediaFilesArray: any[];
+  mediaFilesArray = [];
   favouritedPostsArray: any = [];
+  postArray: any = [];
   thumbnail: string;
   picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   start = 0;
@@ -31,48 +32,49 @@ export class Tab1Page {
   ngOnInit() {}
 
   ionViewWillEnter() {
+    this.postArray = [];
     this.getFiles();
   }
 
   getFiles() {
     // Gets all the media
-    this.picArray = this.mediaProvider.getFilesByTag("gc", this.start);
-    this.picArray.forEach(media => {
-      this.mediaFilesArray = media;
+    this.mediaProvider.getFilesByTag("gc", this.start).subscribe(tagPosts => {
+      this.mediaProvider
+        .getProfilePic("profile")
+        .subscribe((profileTagPosts: any) => {
+          tagPosts.forEach(singlePost => {
+            let profilePicUrl;
 
-      // Sorts the posts by the file_id
-      this.mediaFilesArray.sort((a, b) => {
-        return b.file_id - a.file_id;
-      });
+            // Gets profile picture
+            for (let i = profileTagPosts.length - 1; i >= 0; i--) {
+              if (profileTagPosts[i].user_id === singlePost.user_id) {
+                this.thumbnail = profileTagPosts[i].filename.split(".");
+                this.thumbnail = this.thumbnail[0] + "-tn160.png";
+                profilePicUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
+                singlePost.profilePicUrl = profilePicUrl + this.thumbnail;
+                break;
+              } else {
+                singlePost.profilePicUrl = "../../assets/Gc-Pfp.png";
+              }
+            }
 
-      // Gets profile picture for each post
-      media.forEach(mediaDetails => {
-        this.mediaProvider.getProfilePic("profile").subscribe((res: any[]) => {
-          res.forEach(element => {
-            if (element.user_id === mediaDetails.user_id) {
-              this.thumbnail = element.filename.split(".");
-              this.thumbnail = this.thumbnail[0] + "-tn160.png";
-              this.picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
-              this.picUrl += this.thumbnail;
-            }
-            if (this.picUrl === "") {
-              this.picUrl = "../../assets/Gc-Pfp.png";
-            }
+            this.mediaProvider.getFavourites().subscribe(res => {
+              this.favouritedPostsArray = res;
+
+              // Changes the icon for all the posts that are favourited
+              this.favouritedPostsArray.forEach(favourited => {
+                if (favourited.file_id === singlePost.file_id) {
+                  singlePost.favourited = true;
+                }
+              });
+            });
+            // Adds a post to the post array
+            this.postArray.push(singlePost);
+            this.postArray.sort((a, b) => {
+              return b.file_id - a.file_id;
+            });
           });
         });
-
-        // Gets the posts that are favourited
-        this.mediaProvider.getFavourites().subscribe(res => {
-          this.favouritedPostsArray = res;
-
-          // Changes the icon for all the posts that are favourited
-          this.favouritedPostsArray.forEach(favourited => {
-            if (favourited.file_id === mediaDetails.file_id) {
-              mediaDetails.favourited = true;
-            }
-          });
-        });
-      });
     });
   }
 
