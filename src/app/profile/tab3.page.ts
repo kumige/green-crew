@@ -39,6 +39,7 @@ export class Tab3Page {
   arrayOfMedia: Observable<IPic[]>;
   thumbnail: string;
   picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
+  usersProfilePicUrl: string;
   start = 0;
 
   // Background images
@@ -80,7 +81,7 @@ export class Tab3Page {
         res2.forEach(picture => {
           if (picture.user_id === this.profileArray.user_id) {
             let newUrl = this.mediaUrl + picture.filename;
-            this.profileArray.filename = newUrl;
+            this.usersProfilePicUrl = newUrl;
           }
         });
       });
