@@ -37,6 +37,7 @@ export class Tab3Page {
   allFavouritedPosts: any = [];
   arrayOfFavourites: any = [];
   arrayOfMedia: Observable<IPic[]>;
+  start = 0;
 
   // Background images
   images = [
@@ -87,7 +88,7 @@ export class Tab3Page {
       this.singleMediaService.setProfileBackground(this.randomPicture);
 
       // Gets the users uploaded posts ( with forEach we get the information we need )
-      this.uploadsArray = this.mediaProvider.getFilesByTag("gc");
+      this.uploadsArray = this.mediaProvider.getFilesByTag("gc", this.start);
 
       this.uploadsArray.forEach(element => {
         element.forEach(media => {
@@ -210,7 +211,7 @@ export class Tab3Page {
     let favorites: any = [];
 
     // Gets all the media ( with forEach we get the information we need )
-    this.arrayOfMedia = this.mediaProvider.getFilesByTag("gc");
+    this.arrayOfMedia = this.mediaProvider.getFilesByTag("gc", this.start);
     this.arrayOfMedia.forEach(media => {
       media.forEach(mediaDetails => {
         // Gets the posts that are favourited

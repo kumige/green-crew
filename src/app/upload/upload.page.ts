@@ -94,6 +94,10 @@ export class UploadPage implements OnInit {
     this.fileData = null;
     this.fileBlob = null;
     this.file = null;
+    this.uploadForm.setControl(
+      "ingredient",
+      this.formBuilder.array([this.createIngredient()], Validators.required)
+    );
     this.uploadForm.reset();
   }
 
@@ -104,6 +108,7 @@ export class UploadPage implements OnInit {
     fd.append("description", JSON.stringify(this.uploadForm.value));
     this.mediaProvider.upload(fd).subscribe((res: any) => {
       this.addFilterTag(res.file_id);
+      this.resetForm();
       this.createSpinner();
       setTimeout(() => {
         this.navCtrl.navigateBack("");

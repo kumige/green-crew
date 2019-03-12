@@ -17,6 +17,7 @@ export class Tab1Page {
   nameArray: Observable<[]>;
   mediaFilesArray: any[];
   favouritedPostsArray: any = [];
+  start = 0;
 
   constructor(
     public mediaProvider: MediaProviderPage,
@@ -33,7 +34,7 @@ export class Tab1Page {
 
   getFiles() {
     // Gets all the media
-    this.picArray = this.mediaProvider.getFilesByTag("gc");
+    this.picArray = this.mediaProvider.getFilesByTag("gc", this.start);
     this.picArray.forEach(media => {
       this.mediaFilesArray = media;
 

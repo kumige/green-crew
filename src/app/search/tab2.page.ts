@@ -15,6 +15,7 @@ import { Router } from "@angular/router";
 export class Tab2Page {
   searchTerm = "";
   postArray: any = [];
+  start = 0;
 
   constructor(
     public mediaProvider: MediaProviderPage,
@@ -30,13 +31,15 @@ export class Tab2Page {
     });
     if (this.searchTerm != null) {
       return new Promise((resolve, reject) => {
-        this.mediaProvider.getFilesByTag("gc").subscribe(res => {
+        this.mediaProvider.getFilesByTag("gc", this.start).subscribe(res => {
           for (let i = 0; i < res.length; i++) {
             const description = JSON.parse(res[i].description);
             description.ingredient.forEach(ingredient => {
               if (
                 ingredient.name === this.searchTerm ||
-                description.name === this.searchTerm
+                description.name === this.searchTerm ||
+                ingredient.name.toLowerCase() === this.searchTerm ||
+                description.name.toLowerCase() === this.searchTerm
               ) {
                 if (!this.postExists(res[i])) {
                   this.postArray.push(res[i]);
