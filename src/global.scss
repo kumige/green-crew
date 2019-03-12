@@ -51,6 +51,27 @@ $gc-danger: #f53d3d;
     font-family: "Nanum Gothic", sans-serif;
   }
 
+  ion-card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .text-overflow {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .text-wrap {
+    overflow-wrap: normal;
+  }
+
+  .wrap-container {
+    width: 80%;
+  }
+
   ion-button {
     color: $gc-light;
     --background: #64ad4e;
