@@ -45,31 +45,36 @@
     <img [src]="this.getImg()" />
     <div class="title">
       <div>
-        <p>{{ this.postData.title }}</p>
+        <p class="text-overflow title">{{ this.postData.title }}</p>
         <p class="user">by {{ this.postData.user_id | userData | async }}</p>
       </div>
-      <button *ngIf="!favourited">
-        <ion-icon
-          (click)="favouritePost()"
-          class="heart"
-          name="heart-empty"
-        ></ion-icon>
-      </button>
-      <button *ngIf="favourited">
-        <ion-icon
-          (click)="unFavouritePost()"
-          class="heart"
-          name="heart"
-        ></ion-icon>
-      </button>
+
+      <ion-icon
+        *ngIf="!favourited"
+        (click)="favouritePost()"
+        class="heart"
+        name="heart-empty"
+      ></ion-icon>
+
+      <ion-icon
+        *ngIf="favourited"
+        (click)="unFavouritePost()"
+        class="heart"
+        name="heart"
+      ></ion-icon>
     </div>
   </ion-item>
   <div class="centerer">
-    <section class="description">
-      <h2 class="title centerer">{{ this.description.name }}</h2>
+    <section class="description centerer">
+      <div class="centerer text-wrap recipe-title">
+        <h2 class="title">
+          {{ this.description.name }}
+        </h2>
+      </div>
+
       <div class="ingredients" *ngFor="let ing of this.description.ingredient">
-        <span class="single">{{ ing.name }}</span>
-        <span class="single">{{ ing.amount }}</span>
+        <span class="single text-wrap">{{ ing.name }}</span>
+        <span class="single text-wrap">{{ ing.amount }}</span>
       </div>
       <div class="instructions">
         {{ this.description.instructions }}
@@ -107,16 +112,18 @@
 
     <div *ngFor="let comment of commentArray">
       <ion-card class="comment-container">
-        <ion-icon
-          *ngIf="comment.ownComment"
-          (click)="deleteComment(comment)"
-          class="del"
-          name="close"
-        ></ion-icon>
         <ion-card-content>
           <div class="comment-info">
             <p class="user">{{ comment.username }}</p>
-            <p class="time">{{ comment.time_added | date: "dd/MM/yyyy" }}</p>
+            <div class="info">
+              <p class="time">{{ comment.time_added | date: "dd/MM/yyyy" }}</p>
+              <ion-icon
+                *ngIf="comment.ownComment"
+                (click)="deleteComment(comment)"
+                class="del"
+                name="close"
+              ></ion-icon>
+            </div>
           </div>
           <p class="comment">{{ comment.comment }}</p>
         </ion-card-content>
