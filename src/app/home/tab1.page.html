@@ -10,13 +10,12 @@
 
 <ion-content>
   <ion-list>
-    <ion-card
-      *ngFor="let item of mediaFilesArray"
-      (click)="showSinglePost(item)"
-    >
+    <ion-card *ngFor="let item of mediaFilesArray">
       <ion-card-header>
         <div class="postTitle">
-          <ion-card-title>{{ item.title }}</ion-card-title>
+          <ion-card-title (click)="showSinglePost(item)">{{
+            item.title
+          }}</ion-card-title>
           <ion-card-subtitle>{{
             item.user_id | userData | async
           }}</ion-card-subtitle>
@@ -38,7 +37,7 @@
         </button>
       </ion-card-header>
 
-      <ion-card-content>
+      <ion-card-content (click)="showSinglePost(item)">
         <div class="image-container">
           <img
             class="thumbnail"

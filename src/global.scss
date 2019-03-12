@@ -66,6 +66,8 @@ $gc-danger: #f53d3d;
   }
 
   ion-card {
+    position: relative;
+    z-index: 0;
     ion-card-header {
       display: flex;
       flex-flow: row;
@@ -96,9 +98,8 @@ $gc-danger: #f53d3d;
     border-radius: 4px;
   }
 
-  .heart-empty {
-    color: #64ad4e;
-    font-size: 28px;
+  .favourite {
+    position: fixed;
   }
 
   .back-arrow {
