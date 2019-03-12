@@ -50,7 +50,7 @@ export class PlayerPage implements OnInit {
   //Load content
   ionViewWillEnter() {
     this.getPost();
-    this.getProfilePic();
+    //this.getProfilePic();
     this.getComments();
     this.isFavourited();
 
@@ -132,26 +132,43 @@ export class PlayerPage implements OnInit {
   getComments() {
     return new Promise((resolve, reject) => {
       this.mediaProvider.getComments(this.postData.file_id).subscribe(res => {
-        res.forEach(async element => {
-          const singleComment = {
-            comment_id: element.comment_id,
-            comment: element.comment,
-            username: await this.getCommentUsername(element.user_id),
-            time_added: element.time_added,
-            ownComment: false
-          };
-          if (element.user_id === this.user.user_id) {
-            singleComment.ownComment = true;
-          }
-          this.commentArray.push(singleComment);
-          console.log(this.commentArray);
+        this.mediaProvider
+          .getProfilePic("profile")
+          .subscribe((profileTagPosts: any) => {
+            res.forEach(async (element: any) => {
+              const singleComment = {
+                comment_id: element.comment_id,
+                comment: element.comment,
+                username: await this.getCommentUsername(element.user_id),
+                time_added: element.time_added,
+                ownComment: false,
+                profilePicUrl: "http://media.mw.metropolia.fi/wbma/uploads/"
+              };
+              if (element.user_id === this.user.user_id) {
+                singleComment.ownComment = true;
+              }
+              for (let i = profileTagPosts.length - 1; i >= 0; i--) {
+                if (profileTagPosts[i].user_id === element.user_id) {
+                  this.thumbnail = profileTagPosts[i].filename.split(".");
+                  this.thumbnail = this.thumbnail[0] + "-tn160.png";
+                  singleComment.profilePicUrl =
+                    "http://media.mw.metropolia.fi/wbma/uploads/";
+                  singleComment.profilePicUrl += this.thumbnail;
+                  break;
+                } else {
+                  singleComment.profilePicUrl = "../../assets/Gc-Pfp.png";
+                }
+              }
+              console.log(singleComment.profilePicUrl);
+              this.commentArray.push(singleComment);
 
-          // Sorts by the newest comment
-          this.commentArray.sort((a, b) => {
-            return b.comment_id - a.comment_id;
+              // Sorts by the newest comment
+              this.commentArray.sort((a, b) => {
+                return b.comment_id - a.comment_id;
+              });
+            });
+            resolve(this.commentArray);
           });
-        });
-        resolve(this.commentArray);
       });
     });
   }
@@ -189,6 +206,7 @@ export class PlayerPage implements OnInit {
     this.deleteAlert("Are you sure you want to delete this comment?", comment);
   }
 
+  // Creates the alert pop-up for deleting recipes
   async deleteAlert(alertMsg: string, comment) {
     const alert = await this.alertCtrl.create({
       message: alertMsg,
@@ -220,22 +238,6 @@ export class PlayerPage implements OnInit {
 
   navBack() {
     this.navCtrl.navigateBack(this.singleMediaService.getPreviousUrl());
-  }
-
-  getProfilePic() {
-    this.mediaProvider.getProfilePic("profile").subscribe((res: any[]) => {
-      res.forEach(element => {
-        if (element.user_id === this.postData.user_id) {
-          this.thumbnail = element.filename.split(".");
-          this.thumbnail = this.thumbnail[0] + "-tn160.png";
-          this.picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
-          this.picUrl += this.thumbnail;
-        }
-        if (this.picUrl === "") {
-          this.picUrl = "../../assets/Gc-Pfp.png";
-        }
-      });
-    });
   }
 
   // Checks if the comment is over 3 characters long and if not, shows a error message
