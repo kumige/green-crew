@@ -48,10 +48,10 @@ export class Tab3Page {
   // Background images
   images = [
     "../../../assets/Gc-Background1.jpg",
-    //"../../../assets/Gc-Background2.jpg",
+    "../../../assets/Gc-Background2.jpg",
     "../../../assets/Gc-Background3.jpg",
     "../../../assets/Gc-Background4.jpg",
-    //"../../../assets/Gc-Background5.jpg",
+    "../../../assets/Gc-Background5.jpg",
     "../../../assets/Gc-Background6.jpg"
   ];
 
@@ -122,7 +122,6 @@ export class Tab3Page {
         uploadsArray = res;
         uploadsArray.forEach(usersMedia => {
           if (usersMedia.user_id === this.profileArray.user_id) {
-            //console.log(element2);
             this.allFiles.push(usersMedia);
             this.showNoUploadsMsg = this.allFiles.length;
 
@@ -143,7 +142,6 @@ export class Tab3Page {
                 }
               });
             });
-            //console.log(this.allFiles);
           }
         });
       });
@@ -238,7 +236,7 @@ export class Tab3Page {
     });
   }
 
-  // Gets all the posts that the user has favourited
+  // Gets all the posts that the user has favourited and their profilepictures
   getFavoritedMedia() {
     let favouritedPostsArray;
 
@@ -250,7 +248,7 @@ export class Tab3Page {
           tagPosts.forEach(singlePost => {
             let profilePicUrl;
 
-            // Gets profile picture
+            // Gets profile pictures
             for (let i = profileTagPosts.length - 1; i >= 0; i--) {
               if (profileTagPosts[i].user_id === singlePost.user_id) {
                 this.thumbnail = profileTagPosts[i].filename.split(".");

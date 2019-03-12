@@ -48,7 +48,7 @@ export class ProfileEditPage implements OnInit {
     this.formReset();
   }
 
-  // Create the formgroup
+  // Creates form for editing profile
   editForm = new FormGroup({
     username: new FormControl(
       "",
@@ -75,6 +75,7 @@ export class ProfileEditPage implements OnInit {
     document.getElementById("editUserNameError").innerHTML = null;
   }
 
+  // Resets form
   formReset() {
     this.pfpChanged = false;
     this.fileBlob = null;
@@ -87,6 +88,7 @@ export class ProfileEditPage implements OnInit {
   // edits the users info and if new password has been inserted, checks if the passwords match
   editInfo() {
     this.notEmptyField();
+
     if (
       this.editForm.controls.username.status === "VALID" &&
       this.editForm.controls.email.status === "VALID" &&
@@ -94,10 +96,8 @@ export class ProfileEditPage implements OnInit {
     ) {
       if (this.samePassword === true) {
         if (this.pfpChanged === false) {
-          console.log(this.profileEdit);
           this.mediaProvider.editProfile(this.profileEdit).subscribe(
             (res: EditResponse) => {
-              console.log(res);
               this.profileUpdated = true;
               this.singleMediaService.setProfileUpdated(this.profileUpdated);
               this.formReset();
@@ -131,6 +131,7 @@ export class ProfileEditPage implements OnInit {
     }
   }
 
+  // If there is a empty field, changes it to undefined
   notEmptyField() {
     if (this.profileEdit.username === "") {
       this.profileEdit.username = undefined;
@@ -192,13 +193,12 @@ export class ProfileEditPage implements OnInit {
   }
 
   // Adds "profile" tag for the new profilepicture
-  addFilterTag(fileId) {
+  addProfileTag(fileId) {
     const tag = {
       file_id: fileId,
       tag: "profile"
     };
     this.mediaProvider.addTag(tag).subscribe(res => {
-      console.log("tagChange");
       console.log(res);
     });
   }
@@ -209,7 +209,6 @@ export class ProfileEditPage implements OnInit {
       .getFile("image/*,video/mp4")
       .then(file => {
         if (file) {
-          console.log(file);
           this.fileBlob = new Blob([file.data], { type: file.mediaType });
           this.pfpChanged = true;
           this.showPreview();
@@ -224,9 +223,8 @@ export class ProfileEditPage implements OnInit {
     fd.append("file", this.fileBlob);
     fd.append("title", "pfp");
     this.mediaProvider.upload(fd).subscribe((res: any) => {
-      console.log("upload res");
       console.log(res);
-      this.addFilterTag(res.file_id);
+      this.addProfileTag(res.file_id);
     });
   }
 

@@ -102,8 +102,6 @@ export class LoginPage implements OnInit {
 
   // Checks if every field is valid before registering the user
   register = () => {
-    console.log(this.registerForm.status);
-    console.log(this.registerForm);
     if (
       this.registerForm.controls.email.status === "VALID" &&
       this.registerForm.controls.username.status === "VALID"
@@ -112,7 +110,6 @@ export class LoginPage implements OnInit {
         if (this.registering && this.registerForm.status === "VALID") {
           this.mediaProvider.userCheck(this.user).subscribe(
             (res: UserCheck) => {
-              console.log("register");
               if (res.available) {
                 this.registerPost();
               } else {
@@ -134,7 +131,6 @@ export class LoginPage implements OnInit {
   registerPost() {
     this.mediaProvider.register(this.user).subscribe(
       (res: RegisterResponse) => {
-        console.log("registered");
         this.login();
       },
       error => {
