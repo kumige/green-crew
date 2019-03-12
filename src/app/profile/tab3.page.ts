@@ -42,6 +42,8 @@ export class Tab3Page {
   showNoUploadsMsg;
   showNoFavoutitesMsg;
   start = 0;
+  favouriteArray: any = [];
+  favouritedPosts: any = [];
 
   // Background images
   images = [
@@ -64,6 +66,10 @@ export class Tab3Page {
     this.showNoUploadsMsg = 0;
     this.randomImage();
     this.profileUpdatedAlert();
+    this.mediaProvider.getFavourites().subscribe(res => {
+      this.favouriteArray = res;
+      console.log(this.favouriteArray);
+    });
   }
 
   // Resets the arrays and variables
