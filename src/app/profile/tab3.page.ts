@@ -37,12 +37,9 @@ export class Tab3Page {
   allFavouritedPosts: any = [];
   arrayOfFavourites: any = [];
   arrayOfMedia: Observable<IPic[]>;
-<<<<<<< HEAD
   thumbnail: string;
   picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
-=======
   start = 0;
->>>>>>> 57e9fb865696cc05a4017be543237c297d36733d
 
   // Background images
   images = [
@@ -87,31 +84,12 @@ export class Tab3Page {
           }
         });
       });
-<<<<<<< HEAD
     });
+
     let postsInfo: any = [];
-=======
-      // sets the profileArray in the single media service
-      this.singleMediaService.setProfileData(this.profileArray);
-      this.singleMediaService.setProfileBackground(this.randomPicture);
-
-      // Gets the users uploaded posts ( with forEach we get the information we need )
-      this.uploadsArray = this.mediaProvider.getFilesByTag("gc", this.start);
-
-      this.uploadsArray.forEach(element => {
-        element.forEach(media => {
-          if (media.user_id === this.profileArray.user_id) {
-            //console.log(element2);
-            this.allFiles.push(media);
-
-            // Sorts the file by the file_id (gets the newest picture on top)
-            this.allFiles.sort(function(a, b) {
-              return b.file_id - a.file_id;
-            });
->>>>>>> 57e9fb865696cc05a4017be543237c297d36733d
 
     // Gets all the media
-    postsInfo = this.mediaProvider.getFilesByTag("gc");
+    postsInfo = this.mediaProvider.getFilesByTag("gc", this.start);
     postsInfo.forEach(media => {
       // Gets profile picture for each post
       media.forEach(mediaDetails => {
@@ -139,7 +117,7 @@ export class Tab3Page {
     this.singleMediaService.setProfileBackground(this.randomPicture);
 
     // Gets all the posts with "gc" tag and with foreach we get the info we need to get the posts that are posted by the user
-    this.uploadsArray = this.mediaProvider.getFilesByTag("gc");
+    this.uploadsArray = this.mediaProvider.getFilesByTag("gc", this.start);
 
     this.uploadsArray.forEach(element => {
       element.forEach(usersMedia => {
