@@ -35,13 +35,15 @@ export class MediaProviderPage implements OnInit {
     }
   }
 
-  getFiles() {
-    return this.http.get<IPic[]>("http://media.mw.metropolia.fi/wbma/media");
+  getFiles(start) {
+    return this.http.get<IPic[]>(
+      `http://media.mw.metropolia.fi/wbma/media?start=${start}&limit=5`
+    );
   }
 
-  getFilesByTag(tag) {
+  getFilesByTag(tag, start) {
     return this.http.get<[any]>(
-      "http://media.mw.metropolia.fi/wbma/tags/" + tag
+      `http://media.mw.metropolia.fi/wbma/tags/${tag}?start=${start}&limit=10`
     );
   }
 

@@ -17,8 +17,12 @@ export class Tab1Page {
   nameArray: Observable<[]>;
   mediaFilesArray: any[];
   favouritedPostsArray: any = [];
+<<<<<<< HEAD
   thumbnail: string;
   picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
+=======
+  start = 0;
+>>>>>>> 57e9fb865696cc05a4017be543237c297d36733d
 
   constructor(
     public mediaProvider: MediaProviderPage,
@@ -35,7 +39,7 @@ export class Tab1Page {
 
   getFiles() {
     // Gets all the media
-    this.picArray = this.mediaProvider.getFilesByTag("gc");
+    this.picArray = this.mediaProvider.getFilesByTag("gc", this.start);
     this.picArray.forEach(media => {
       this.mediaFilesArray = media;
 
