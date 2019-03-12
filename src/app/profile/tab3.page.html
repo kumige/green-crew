@@ -50,14 +50,16 @@
   </div>
 
   <ion-list *ngIf="!favouritesTab">
-    <ion-card *ngFor="let item of allFiles" (click)="showSinglePost(item)">
+    <ion-card *ngFor="let item of allFiles">
       <ion-card-header>
         <ion-avatar>
           <img [src]="this.picUrl" />
         </ion-avatar>
         <div class="postTitle">
           <div>
-            <ion-card-title>{{ item.title }}</ion-card-title>
+            <ion-card-title (click)="showSinglePost(item)">{{
+              item.title
+            }}</ion-card-title>
             <ion-card-subtitle>{{
               item.user_id | userData | async
             }}</ion-card-subtitle>
@@ -80,7 +82,7 @@
       </ion-card-header>
 
       <ion-card-content>
-        <div class="image-container">
+        <div (click)="showSinglePost(item)" class="image-container">
           <img
             class="thumbnail"
             *ngIf="item.media_type == 'image'"
@@ -105,17 +107,16 @@
   </ion-list>
 
   <ion-list *ngIf="favouritesTab">
-    <ion-card
-      *ngFor="let item of arrayOfFavourites"
-      (click)="showSinglePost(item)"
-    >
+    <ion-card *ngFor="let item of arrayOfFavourites">
       <ion-card-header>
         <ion-avatar>
           <img [src]="this.picUrl" />
         </ion-avatar>
         <div class="postTitle">
           <div>
-            <ion-card-title>{{ item.title }}</ion-card-title>
+            <ion-card-title (click)="showSinglePost(item)">{{
+              item.title
+            }}</ion-card-title>
             <ion-card-subtitle>{{
               item.user_id | userData | async
             }}</ion-card-subtitle>
@@ -138,7 +139,7 @@
       </ion-card-header>
 
       <ion-card-content>
-        <div class="image-container">
+        <div (click)="showSinglePost(item)" class="image-container">
           <img
             class="thumbnail"
             *ngIf="item.media_type == 'image'"
