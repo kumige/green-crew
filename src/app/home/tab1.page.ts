@@ -17,6 +17,8 @@ export class Tab1Page {
   nameArray: Observable<[]>;
   mediaFilesArray: any[];
   favouritedPostsArray: any = [];
+  thumbnail: string;
+  picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   start = 0;
 
   constructor(
@@ -39,11 +41,23 @@ export class Tab1Page {
       this.mediaFilesArray = media;
 
       // Sorts the posts by the file_id
-      this.mediaFilesArray.sort(function(a, b) {
+      this.mediaFilesArray.sort((a, b) => {
         return b.file_id - a.file_id;
       });
 
+      // Gets profile picture for each post
       media.forEach(mediaDetails => {
+        this.mediaProvider.getProfilePic("profile").subscribe((res: any[]) => {
+          res.forEach(element => {
+            if (element.user_id === mediaDetails.user_id) {
+              this.thumbnail = element.filename.split(".");
+              this.thumbnail = this.thumbnail[0] + "-tn160.png";
+              this.picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
+              this.picUrl += this.thumbnail;
+            }
+          });
+        });
+
         // Gets the posts that are favourited
         this.mediaProvider.getFavourites().subscribe(res => {
           this.favouritedPostsArray = res;

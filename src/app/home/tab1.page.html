@@ -12,33 +12,37 @@
   <ion-list>
     <ion-card *ngFor="let item of mediaFilesArray">
       <ion-card-header>
+        <ion-avatar>
+          <img [src]="this.picUrl" />
+        </ion-avatar>
         <div class="postTitle">
-          <ion-card-title (click)="showSinglePost(item)">{{
-            item.title
-          }}</ion-card-title>
-          <ion-card-subtitle>{{
-            item.user_id | userData | async
-          }}</ion-card-subtitle>
+          <div>
+            <ion-card-title (click)="showSinglePost(item)">{{
+              item.title
+            }}</ion-card-title>
+            <ion-card-subtitle>{{
+              item.user_id | userData | async
+            }}</ion-card-subtitle>
+          </div>
+          <button *ngIf="!item.favourited">
+            <ion-icon
+              (click)="favouritePost(item)"
+              class="heart"
+              name="heart-empty"
+            ></ion-icon>
+          </button>
+          <button *ngIf="item.favourited">
+            <ion-icon
+              (click)="unFavouritePost(item)"
+              class="heart"
+              name="heart"
+            ></ion-icon>
+          </button>
         </div>
-
-        <button *ngIf="!item.favourited">
-          <ion-icon
-            (click)="favouritePost(item)"
-            class="heart"
-            name="heart-empty"
-          ></ion-icon>
-        </button>
-        <button *ngIf="item.favourited">
-          <ion-icon
-            (click)="unFavouritePost(item)"
-            class="heart"
-            name="heart"
-          ></ion-icon>
-        </button>
       </ion-card-header>
 
-      <ion-card-content (click)="showSinglePost(item)">
-        <div class="image-container">
+      <ion-card-content>
+        <div (click)="showSinglePost(item)" class="image-container">
           <img
             class="thumbnail"
             *ngIf="item.media_type == 'image'"

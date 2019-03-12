@@ -28,6 +28,7 @@ export class PlayerPage implements OnInit {
   videoContent = false;
   audioContent = false;
   imageContent = false;
+  favourited: Boolean = false;
 
   constructor(
     public singleMediaService: SingleMediaService,
@@ -39,7 +40,10 @@ export class PlayerPage implements OnInit {
 
   ngOnInit() {
     this.commentForm = new FormGroup({
-      comment: new FormControl("", Validators.minLength(3))
+      comment: new FormControl("", [
+        Validators.required,
+        Validators.minLength(3)
+      ])
     });
   }
 
@@ -48,6 +52,7 @@ export class PlayerPage implements OnInit {
     this.getPost();
     this.getProfilePic();
     this.getComments();
+    this.isFavourited();
 
     this.mediaProvider.getProfileData().subscribe(res => {
       this.user = res;
@@ -139,6 +144,12 @@ export class PlayerPage implements OnInit {
             singleComment.ownComment = true;
           }
           this.commentArray.push(singleComment);
+          console.log(this.commentArray);
+
+          // Sorts by the newest comment
+          this.commentArray.sort((a, b) => {
+            return b.comment_id - a.comment_id;
+          });
         });
         resolve(this.commentArray);
       });
@@ -155,7 +166,10 @@ export class PlayerPage implements OnInit {
   }
 
   postComment() {
-    if (this.commentForm.get("comment").valid) {
+    if (
+      this.commentForm.get("comment").valid &&
+      this.commentForm.get("comment").value.length >= 3
+    ) {
       const data = {
         file_id: this.postData.file_id,
         comment: this.commentForm.get("comment").value
@@ -223,5 +237,49 @@ export class PlayerPage implements OnInit {
         }
       });
     });
+  }
+
+  // Checks if the comment is over 3 characters long and if not, shows a error message
+  commentStatusCheck() {
+    if (
+      this.commentForm.get("comment").value.length < 3 &&
+      this.commentForm.get("comment").value.length > 0
+    ) {
+      this.commentStatus = false;
+    } else {
+      this.commentStatus = true;
+    }
+  }
+
+  // Favourites a post
+  favouritePost(item) {
+    if (this.mediaProvider.loggedIn) {
+      const file = {
+        file_id: item.file_id
+      };
+      this.favourited = true;
+      this.mediaProvider.favouriteMedia(file).subscribe(res => {
+        console.log(res);
+      });
+    }
+  }
+
+  // Unfavourites a post
+  unFavouritePost(item) {
+    if (this.mediaProvider.loggedIn) {
+      this.favourited = false;
+      this.mediaProvider.deleteFavourite(item.file_id).subscribe(res => {
+        console.log(res);
+      });
+    }
+  }
+
+  // Checks if the post is favourited and changes the icon
+  isFavourited() {
+    if (this.postData.favourited) {
+      this.favourited = true;
+    } else {
+      this.favourited = false;
+    }
   }
 }

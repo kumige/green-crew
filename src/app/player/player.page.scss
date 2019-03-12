@@ -1,3 +1,5 @@
+@import "../../global.scss";
+
 .profile {
   display: flex;
   flex-flow: row;
@@ -9,14 +11,22 @@
   }
   .title {
     margin-left: 8px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    div {
+      display: block;
+    }
     p {
       font-size: 20px;
       margin: 0;
     }
     .user {
-      margin-top: 4px;
       font-size: 16px;
       color: gray;
+    }
+    button {
+      background-color: #f4f4f4;
     }
   }
 }

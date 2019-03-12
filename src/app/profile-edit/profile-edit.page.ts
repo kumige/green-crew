@@ -31,6 +31,8 @@ export class ProfileEditPage implements OnInit {
   pfpChanged: Boolean = false;
   fileData: string;
 
+  ngOnInit() {}
+
   // on enter gets the data and if data is undefined it navigates back
   ionViewWillEnter() {
     // this.getProfileBackground();
@@ -39,6 +41,10 @@ export class ProfileEditPage implements OnInit {
     if (this.profileArray == undefined) {
       this.navCtrl.navigateBack("tabs/tab3");
     }
+  }
+
+  ionViewWillLeave() {
+    this.formReset();
   }
 
   // Create the formgroup
@@ -54,8 +60,6 @@ export class ProfileEditPage implements OnInit {
     ),
     re_password: new FormControl("")
   });
-
-  ngOnInit() {}
 
   // Gets the user data (profilepicture, username etc)
   getUserData() {

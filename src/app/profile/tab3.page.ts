@@ -37,6 +37,8 @@ export class Tab3Page {
   allFavouritedPosts: any = [];
   arrayOfFavourites: any = [];
   arrayOfMedia: Observable<IPic[]>;
+  thumbnail: string;
+  picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
   start = 0;
 
   // Background images
@@ -53,12 +55,13 @@ export class Tab3Page {
     this.buttonColor = "#f4f4f4";
     this.buttonColor2 = "#E9E9E9";
     this.favouritesTab = false;
+    this.getProfilePicture();
     this.getUserData();
     this.randomImage();
-    this.allFiles = [];
     this.profileUpdatedAlert();
   }
 
+  // Resets the arrays and variables
   reset() {
     this.allFiles = [];
     this.allFavouritedPosts = [];
@@ -67,11 +70,9 @@ export class Tab3Page {
     this.profileArray = { username: null };
   }
 
-  // Gets the users data (profile picture, username etc.) and the users uploaded posts
-  getUserData() {
-    this.reset();
-
-    //Gets the profile picture and username
+  //Gets the profile pictures
+  getProfilePicture() {
+    // Gets the users profile picture
     this.mediaProvider.getProfileData().subscribe(res => {
       this.profileArray = res;
 
@@ -83,31 +84,64 @@ export class Tab3Page {
           }
         });
       });
+    });
+
+    let postsInfo: any = [];
+
+    // Gets all the media
+    postsInfo = this.mediaProvider.getFilesByTag("gc", this.start);
+    postsInfo.forEach(media => {
+      // Gets profile picture for each post
+      media.forEach(mediaDetails => {
+        this.mediaProvider.getProfilePic("profile").subscribe((res: any[]) => {
+          res.forEach(element => {
+            if (element.user_id === mediaDetails.user_id) {
+              this.thumbnail = element.filename.split(".");
+              this.thumbnail = this.thumbnail[0] + "-tn160.png";
+              this.picUrl = "http://media.mw.metropolia.fi/wbma/uploads/";
+              this.picUrl += this.thumbnail;
+            }
+          });
+        });
+      });
+    });
+  }
+
+  // Gets the users data (profile picture, username etc.) and the users uploaded posts
+  getUserData() {
+    this.reset();
+    this.getProfilePicture();
+
+    this.mediaProvider.getProfileData().subscribe(res => {
+      this.profileArray = res;
+
       // sets the profileArray in the single media service
       this.singleMediaService.setProfileData(this.profileArray);
       this.singleMediaService.setProfileBackground(this.randomPicture);
 
-      // Gets the users uploaded posts ( with forEach we get the information we need )
+      // Gets all the posts with "gc" tag and with foreach we get the info we need to get the posts that are posted by the user
       this.uploadsArray = this.mediaProvider.getFilesByTag("gc", this.start);
 
       this.uploadsArray.forEach(element => {
-        element.forEach(media => {
-          if (media.user_id === this.profileArray.user_id) {
+        element.forEach(usersMedia => {
+          if (usersMedia.user_id === this.profileArray.user_id) {
             //console.log(element2);
-            this.allFiles.push(media);
+            this.allFiles.push(usersMedia);
 
-            // Sorts the file by the file_id (gets the newest picture on top)
-            this.allFiles.sort(function(a, b) {
+            // Sorts the posts by the file_id (gets the newest picture on top)
+            this.allFiles.sort((a, b) => {
               return b.file_id - a.file_id;
             });
 
             // Changes the icon for all the posts that are favourited
+            // Gets all the favourited posts
             this.mediaProvider.getFavourites().subscribe(res => {
               this.allFavouritedPosts = res;
-              //console.log(this.allFavouritedPosts);
+
+              // Checks which posts are favourited by the user and changes the icon
               this.allFavouritedPosts.forEach(favourited => {
-                if (favourited.file_id === media.file_id) {
-                  media.favourited = true;
+                if (favourited.file_id === usersMedia.file_id) {
+                  usersMedia.favourited = true;
                 }
               });
             });
@@ -208,6 +242,7 @@ export class Tab3Page {
 
   // Gets all the posts that the user has favourited
   getFavoritedMedia() {
+    this.getProfilePicture();
     let favorites: any = [];
 
     // Gets all the media ( with forEach we get the information we need )
@@ -221,11 +256,11 @@ export class Tab3Page {
           // Changed the icon for all the posts that are favourited
           favorites.forEach(favourited => {
             if (favourited.file_id === mediaDetails.file_id) {
-              // console.log(favourited);
               mediaDetails.favourited = true;
-              // console.log(mediaDetails);
               this.arrayOfFavourites.push(mediaDetails);
-              this.arrayOfFavourites.sort(function(a, b) {
+
+              // Sorts the favourited posts
+              this.arrayOfFavourites.sort((a, b) => {
                 return b.file_id - a.file_id;
               });
             }
