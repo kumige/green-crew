@@ -42,7 +42,7 @@
     />
   </audio>
   <ion-item class="profile">
-    <img [src]="this.getImg()" />
+    <img [src]="postData.profilePicUrl" />
     <div class="title">
       <div>
         <p class="text-overflow title">{{ this.postData.title }}</p>
@@ -114,7 +114,12 @@
       <ion-card class="comment-container">
         <ion-card-content>
           <div class="comment-info">
-            <p class="user">{{ comment.username }}</p>
+            <div class="info">
+              <ion-avatar class="commentProfPic">
+                <img [src]="comment.profilePicUrl" />
+              </ion-avatar>
+              <p class="user">{{ comment.username }}</p>
+            </div>
             <div class="info">
               <p class="time">{{ comment.time_added | date: "dd/MM/yyyy" }}</p>
               <ion-icon
