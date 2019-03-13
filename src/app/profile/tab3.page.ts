@@ -10,6 +10,7 @@ import { IPic } from "./../interfaces/file";
 import { Observable } from "rxjs";
 import { ProfilePopoverComponent } from "../profile-popover/profile-popover.component";
 import { SingleMediaService } from "../services/single-media.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-tab3",
@@ -22,7 +23,8 @@ export class Tab3Page {
     public navCtrl: NavController,
     public popoverController: PopoverController,
     public singleMediaService: SingleMediaService,
-    public alertController: AlertController
+    public alertController: AlertController,
+    public router: Router
   ) {}
 
   profileArray: Profile = { username: null };
@@ -68,7 +70,7 @@ export class Tab3Page {
     this.profileUpdatedAlert();
     this.mediaProvider.getFavourites().subscribe(res => {
       this.favouriteArray = res;
-      console.log(this.favouriteArray);
+      // console.log(this.favouriteArray);
     });
   }
 
@@ -171,6 +173,7 @@ export class Tab3Page {
   // Opens a post
   showSinglePost(item) {
     this.singleMediaService.setPost(item);
+    this.singleMediaService.setPreviousUrl(this.router.url);
     this.navCtrl.navigateForward("/tabs/player");
   }
 

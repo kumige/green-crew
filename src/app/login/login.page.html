@@ -49,6 +49,7 @@
         [(ngModel)]="user.email"
         name="Email"
         formControlName="email"
+        maxlength="30"
         autofocus
         required
       ></ion-input>
@@ -73,6 +74,7 @@
         name="Username"
         (ionBlur)="usernameCheck()"
         formControlName="username"
+        maxlength="20"
         required
       ></ion-input>
     </ion-item>
@@ -95,6 +97,7 @@
         type="text"
         [(ngModel)]="user.full_name"
         formControlName="full_name"
+        maxlength="20"
         name="Full Name"
       ></ion-input>
     </ion-item>
@@ -105,6 +108,7 @@
         (ionBlur)="passwordCheck()"
         [(ngModel)]="user.password"
         name="Password"
+        maxlength="30"
         formControlName="password"
         required
       ></ion-input>
@@ -128,6 +132,7 @@
         (ionBlur)="passwordCheck()"
         [(ngModel)]="re_password"
         name="Password"
+        maxlength="30"
         formControlName="re_password"
         required
       ></ion-input>

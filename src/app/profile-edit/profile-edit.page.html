@@ -34,6 +34,7 @@
         type="text"
         [(ngModel)]="profileEdit.username"
         (ionBlur)="usernameCheck()"
+        maxlength="20"
         name="Username"
         formControlName="username"
       ></ion-input>
@@ -54,6 +55,7 @@
         type="text"
         [(ngModel)]="profileEdit.email"
         name="Email"
+        maxlength="30"
         formControlName="email"
       ></ion-input>
     </ion-item>
@@ -73,6 +75,7 @@
         (ionBlur)="passwordCheck()"
         [(ngModel)]="profileEdit.password"
         name="Password"
+        maxlength="30"
         formControlName="password"
       ></ion-input>
     </ion-item>
@@ -92,6 +95,7 @@
         (ionBlur)="passwordCheck()"
         [(ngModel)]="re_password"
         name="Password"
+        maxlength="30"
         formControlName="re_password"
       ></ion-input>
     </ion-item>
